@@ -1,6 +1,9 @@
 (function () {
   'use strict';
-  var d = document;
+  var d = document, pre = d.body.getAttribute('data-pre') || '';
+  var KLUCZ = 'smk-koszyk';
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   /* menu mobilne */
   var burger = d.getElementById('burger'), menu = d.getElementById('menu');
@@ -10,124 +13,156 @@
     burger.setAttribute('aria-expanded', o ? 'true' : 'false');
     burger.setAttribute('aria-label', o ? 'Zamknij menu' : 'Otwórz menu');
   });
-  menu.addEventListener('click', function (e) { if (e.target.closest('a')) zamknij(); });
   d.addEventListener('keydown', function (e) { if (e.key === 'Escape') zamknij(); });
+  d.addEventListener('click', function (e) { if (menu.classList.contains('otwarte') && !e.target.closest('#menu,#burger')) zamknij(); });
 
-  /* aktywna pozycja menu */
-  var linki = [].slice.call(menu.querySelectorAll(':scope > a:not(.menu-cta)'));
-  var sekcje = linki.map(function (a) { return d.querySelector(a.getAttribute('href')); });
-  function aktywna() {
-    var y = window.scrollY + window.innerHeight * 0.35, ix = -1;
-    sekcje.forEach(function (s, i) { if (s && s.offsetTop <= y) ix = i; });
-    linki.forEach(function (a, i) { if (i === ix) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  /* koszyk w pamięci przeglądarki */
+  function wczytaj() { try { return JSON.parse(localStorage.getItem(KLUCZ)) || []; } catch (e) { return []; } }
+  function zapisz(k) { try { localStorage.setItem(KLUCZ, JSON.stringify(k)); } catch (e) {} licznik(); }
+  function licznik() {
+    var n = wczytaj().reduce(function (s, p) { return s + p.ilosc; }, 0);
+    d.querySelectorAll('[data-licznik]').forEach(function (b) { b.textContent = n; b.hidden = n === 0; });
   }
-  window.addEventListener('scroll', aktywna, { passive: true });
-  aktywna();
+  function dodaj(p, ilosc, uwagi) {
+    var k = wczytaj(), klucz = p.id + '|' + (uwagi || ''), jest = null;
+    k.forEach(function (x) { if (x.klucz === klucz) jest = x; });
+    if (jest) jest.ilosc += ilosc;
+    else k.push({ klucz: klucz, id: p.id, nazwa: p.nazwa, img: p.img, url: p.url, ilosc: ilosc, uwagi: uwagi || '' });
+    zapisz(k);
+    toast(p.nazwa);
+  }
+  var tid;
+  function toast(nazwa) {
+    var t = d.getElementById('toast');
+    t.innerHTML = '<span>Dodano do koszyka: <b>' + esc(nazwa) + '</b></span><a href="' + pre + 'koszyk/">Zobacz koszyk</a>';
+    t.hidden = false;
+    clearTimeout(tid); tid = setTimeout(function () { t.hidden = true; }, 4500);
+  }
+  licznik();
 
-  /* przeciąganie myszą dla torów */
-  function ciagnij(tor) {
-    var x0 = 0, s0 = 0, ruch = false, wcisniety = false;
-    tor.addEventListener('pointerdown', function (e) {
-      if (e.pointerType !== 'mouse' || e.button !== 0) return;
-      wcisniety = true; ruch = false; x0 = e.clientX; s0 = tor.scrollLeft;
+  d.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-dodaj]');
+    if (!b) return;
+    dodaj(JSON.parse(b.getAttribute('data-dodaj')), 1, '');
+  });
+
+  /* karta produktu: ilość i dodanie */
+  var kup = d.querySelector('[data-kup]');
+  if (kup) {
+    var pole = kup.querySelector('[name=ilosc]');
+    kup.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-ile]'); if (!b) return;
+      pole.value = Math.max(1, (parseInt(pole.value, 10) || 1) + parseInt(b.getAttribute('data-ile'), 10));
     });
+    kup.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var n = Math.max(1, parseInt(pole.value, 10) || 1);
+      dodaj(JSON.parse(kup.getAttribute('data-kup')), n, kup.querySelector('[name=uwagi]').value.trim());
+    });
+  }
+
+  /* galeria: przesuwanie palcem i myszą, miniatury */
+  d.querySelectorAll('[data-galeria]').forEach(function (g) {
+    var tor = g.querySelector('.kp-tor'), min = [].slice.call(g.querySelectorAll('.miniatury button'));
+    function aktywna() {
+      var i = Math.round(tor.scrollLeft / tor.clientWidth);
+      min.forEach(function (b, j) { if (i === j) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    }
+    min.forEach(function (b) {
+      b.addEventListener('click', function () { tor.scrollTo({ left: tor.clientWidth * parseInt(b.getAttribute('data-do'), 10), behavior: 'smooth' }); });
+    });
+    tor.addEventListener('scroll', aktywna, { passive: true });
+    aktywna();
+    var x0 = 0, s0 = 0, ruch = false, wc = false;
+    tor.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse' || e.button !== 0) return; wc = true; ruch = false; x0 = e.clientX; s0 = tor.scrollLeft; });
     window.addEventListener('pointermove', function (e) {
-      if (!wcisniety) return;
-      var dx = e.clientX - x0;
+      if (!wc) return; var dx = e.clientX - x0;
       if (!ruch && Math.abs(dx) > 4) { ruch = true; tor.classList.add('ciagnie'); }
       if (ruch) { tor.scrollLeft = s0 - dx; e.preventDefault(); }
     });
     window.addEventListener('pointerup', function () {
-      if (!wcisniety) return;
-      wcisniety = false;
-      if (ruch) {
-        tor.classList.remove('ciagnie');
-        var el = tor.firstElementChild, w = el ? el.getBoundingClientRect().width : tor.clientWidth;
-        var gap = parseFloat(getComputedStyle(tor).columnGap) || 0;
-        var krok = w + gap, cel = Math.round(tor.scrollLeft / krok) * krok;
-        tor.scrollTo({ left: cel, behavior: 'smooth' });
-      }
+      if (!wc) return; wc = false;
+      if (ruch) { tor.classList.remove('ciagnie'); tor.scrollTo({ left: Math.round(tor.scrollLeft / tor.clientWidth) * tor.clientWidth, behavior: 'smooth' }); }
     });
-    tor.addEventListener('click', function (e) { if (ruch) { e.preventDefault(); e.stopPropagation(); } }, true);
+  });
+
+  var q = new URLSearchParams(location.search);
+
+  /* sklep: filtr kategorii */
+  var lista = d.getElementById('produkty');
+  if (lista) {
+    var kat = q.get('kategoria') || '', n = 0;
+    lista.querySelectorAll('.produkt').forEach(function (p) {
+      var w = !kat || p.getAttribute('data-kat') === kat; p.hidden = !w; if (w) n++;
+    });
+    d.querySelectorAll('[data-filtr]').forEach(function (a) {
+      if (a.getAttribute('data-filtr') === kat) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    var akt = d.querySelector('.filtr[aria-current]');
+    if (akt && akt.scrollIntoView && kat) akt.scrollIntoView({ block: 'nearest', inline: 'center' });
+    d.getElementById('wynik').textContent = n + (n === 1 ? ' oferta' : (n > 1 && n < 5 ? ' oferty' : ' ofert'));
   }
 
-  var strzalka = function (k) {
-    return '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="' + (k < 0 ? 'M12.5 4 6.5 10l6 6' : 'M7.5 4l6 6-6 6') + '" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-  };
-
-  /* karuzele w kartach */
-  d.querySelectorAll('[data-karuzela]').forEach(function (k) {
-    var tor = k.querySelector('.tor'), n = tor.children.length;
-    if (n < 2) return;
-    tor.setAttribute('tabindex', '0');
-    tor.setAttribute('aria-label', 'Zdjęcia, przewiń w bok');
-    var licz = d.createElement('span'); licz.className = 'k-licznik'; licz.textContent = '1/' + n; k.appendChild(licz);
-    [-1, 1].forEach(function (kier) {
-      var b = d.createElement('button'); b.type = 'button';
-      b.className = 'k-btn ' + (kier < 0 ? 'lewo' : 'prawo');
-      b.setAttribute('aria-label', kier < 0 ? 'Poprzednie zdjęcie' : 'Następne zdjęcie');
-      b.innerHTML = strzalka(kier);
-      b.addEventListener('click', function () {
-        var i = Math.round(tor.scrollLeft / tor.clientWidth) + kier;
-        if (i < 0) i = n - 1; if (i >= n) i = 0;
-        tor.scrollTo({ left: i * tor.clientWidth, behavior: 'smooth' });
-      });
-      k.appendChild(b);
+  /* strona koszyka */
+  var kl = d.getElementById('koszykLista');
+  function rysujKoszyk() {
+    var k = wczytaj();
+    d.getElementById('pusty').hidden = k.length > 0;
+    d.getElementById('podsum').hidden = k.length === 0;
+    kl.hidden = k.length === 0;
+    kl.innerHTML = k.map(function (p, i) {
+      return '<div class="pozycja"><a href="' + pre + esc(p.url) + '"><img src="' + pre + esc(p.img) + '" alt="" width="96" height="96"></a>' +
+        '<div><h2><a href="' + pre + esc(p.url) + '">' + esc(p.nazwa) + '</a></h2>' +
+        (p.uwagi ? '<p class="poz-uwagi">Uwagi: ' + esc(p.uwagi) + '</p>' : '') + '<p class="poz-uwagi">Cena na zapytanie</p></div>' +
+        '<div class="poz-akcje"><div class="ilosc" role="group" aria-label="Ilość"><button type="button" data-zm="-1" data-i="' + i + '" aria-label="Mniej">&minus;</button>' +
+        '<input type="number" min="1" value="' + p.ilosc + '" data-i="' + i + '" aria-label="Ilość" inputmode="numeric"><button type="button" data-zm="1" data-i="' + i + '" aria-label="Więcej">+</button></div>' +
+        '<button type="button" class="usun" data-usun="' + i + '">Usuń</button></div></div>';
+    }).join('');
+    d.getElementById('sumPoz').textContent = k.length;
+    d.getElementById('sumSzt').textContent = k.reduce(function (s, p) { return s + p.ilosc; }, 0);
+  }
+  if (kl) {
+    rysujKoszyk();
+    kl.addEventListener('click', function (e) {
+      var k = wczytaj(), b = e.target.closest('[data-zm],[data-usun]'); if (!b) return;
+      if (b.hasAttribute('data-usun')) k.splice(+b.getAttribute('data-usun'), 1);
+      else { var p = k[+b.getAttribute('data-i')]; p.ilosc = Math.max(1, p.ilosc + parseInt(b.getAttribute('data-zm'), 10)); }
+      zapisz(k); rysujKoszyk();
     });
-    tor.addEventListener('scroll', function () {
-      licz.textContent = (Math.round(tor.scrollLeft / tor.clientWidth) + 1) + '/' + n;
-    }, { passive: true });
-    tor.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        e.preventDefault();
-        tor.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * tor.clientWidth, behavior: 'smooth' });
-      }
+    kl.addEventListener('change', function (e) {
+      var k = wczytaj(), i = e.target.getAttribute('data-i'); if (i === null) return;
+      k[+i].ilosc = Math.max(1, parseInt(e.target.value, 10) || 1); zapisz(k); rysujKoszyk();
     });
-    ciagnij(tor);
-  });
-
-  /* link z karty ustawia temat zapytania */
-  d.querySelectorAll('[data-temat]').forEach(function (a) {
-    a.addEventListener('click', function () {
-      var sel = d.querySelector('#wycena [name=temat]');
-      if (sel) sel.value = a.dataset.temat;
-    });
-  });
-
-  /* pasek mobilny po minięciu przycisku w hero */
-  var mob = d.getElementById('mob'), heroCta = d.querySelector('.hero-cta'), kontakt = d.getElementById('kontakt');
-  if ('IntersectionObserver' in window && heroCta) {
-    var poHero = false, przyFormie = false;
-    var ustaw = function () {
-      var w = poHero && !przyFormie;
-      mob.classList.toggle('widac', w);
-      mob.setAttribute('aria-hidden', w ? 'false' : 'true');
-      mob.querySelectorAll('a').forEach(function (a) { a.tabIndex = w ? 0 : -1; });
-    };
-    new IntersectionObserver(function (e) { poHero = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; ustaw(); }).observe(heroCta);
-    new IntersectionObserver(function (e) { przyFormie = e[0].isIntersecting; ustaw(); }, { rootMargin: '0px 0px -40% 0px' }).observe(d.getElementById('wycena'));
   }
 
-  /* formularz pokazowy */
-  var form = d.getElementById('wycena'), info = d.getElementById('formInfo');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var tel = form.querySelector('[name=kontakt]'), zg = form.querySelector('.zgoda input');
-    if (!tel.value.trim()) { info.textContent = 'Proszę podać telefon lub e-mail do odpowiedzi.'; tel.focus(); return; }
-    if (!zg.checked) { info.textContent = 'Proszę zaznaczyć zgodę na kontakt.'; zg.focus(); return; }
-    info.textContent = 'To podgląd strony - formularz nie wysyła danych. Na gotowej stronie zapytanie trafi od razu na smkbiuro@op.pl.';
-  });
+  /* zamówienie */
+  var zam = d.getElementById('zamowienie');
+  if (zam) {
+    var k = wczytaj(), zl = d.getElementById('zamLista');
+    zl.innerHTML = k.length ? k.map(function (p) {
+      return '<li><span>' + esc(p.nazwa) + (p.uwagi ? '<small>' + esc(p.uwagi) + '</small>' : '') + '</span><b>' + p.ilosc + ' szt.</b></li>';
+    }).join('') : '<li><span>Koszyk jest pusty. <a href="' + pre + 'sklep/">Przejdź do sklepu</a></span></li>';
+    zam.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var info = d.getElementById('zamInfo'), brak = null;
+      zam.querySelectorAll('[required]').forEach(function (p) { if (!brak && (p.type === 'checkbox' ? !p.checked : !p.value.trim())) brak = p; });
+      if (!wczytaj().length) { info.textContent = 'Koszyk jest pusty.'; return; }
+      if (brak) { info.textContent = brak.type === 'checkbox' ? 'Proszę zaakceptować regulamin.' : 'Proszę uzupełnić zaznaczone pola.'; brak.focus(); return; }
+      info.textContent = 'Wersja testowa sklepu: zamówienie nie zostało wysłane. W gotowym sklepie trafi do SMK, a na podany e-mail przyjdzie potwierdzenie.';
+    });
+  }
 
-  /* baner cookies - pojawia się po pierwszym przewinięciu */
-  var ck = d.getElementById('cookies'), zapisana = null;
-  try { zapisana = localStorage.getItem('smk-zgoda'); } catch (err) { zapisana = null; }
-  if (!zapisana && ck) {
-    var pokaz = function () { if (window.scrollY > 200) { ck.hidden = false; window.removeEventListener('scroll', pokaz); } };
-    window.addEventListener('scroll', pokaz, { passive: true });
-    ck.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-zgoda]'); if (!b) return;
-      try { localStorage.setItem('smk-zgoda', b.dataset.zgoda); } catch (err) {}
-      ck.hidden = true;
+  /* formularz zapytania */
+  var form = d.getElementById('zapytanie');
+  if (form && form.tagName === 'FORM') {
+    var sel = form.querySelector('[name=temat]'), t = q.get('temat');
+    if (t && sel.querySelector('option[value="' + t.replace(/[^a-z0-9-]/g, '') + '"]')) sel.value = t;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var info = d.getElementById('formInfo'), kon = form.querySelector('[name=kontakt]'), zg = form.querySelector('[name=zgoda]');
+      if (!kon.value.trim()) { info.textContent = 'Proszę podać telefon lub e-mail do odpowiedzi.'; kon.focus(); return; }
+      if (!zg.checked) { info.textContent = 'Proszę zaznaczyć zgodę na kontakt.'; zg.focus(); return; }
+      info.textContent = 'Wersja testowa sklepu: formularz nie wysyła danych. W gotowym sklepie zapytanie trafi od razu na smkbiuro@op.pl.';
     });
   }
 })();
