@@ -641,7 +641,7 @@ def zamowienie():
       </fieldset>
       <fieldset>
         <legend>Płatność</legend>
-        <label class="opcja"><input type="radio" name="platnosc" value="online" checked><span><b>Płatność online</b>BLIK, karta albo szybki przelew</span></label>
+        <label class="opcja"><input type="radio" name="platnosc" value="online" checked><span><b>Płatność online Przelewy24</b>BLIK, karta albo szybki przelew</span></label>
         <label class="opcja"><input type="radio" name="platnosc" value="przelew"><span><b>Przelew tradycyjny</b>dane do przelewu w potwierdzeniu zamówienia</span></label>
       </fieldset>
       <label>Uwagi do zamówienia<textarea name="uwagi" rows="3"></textarea></label>
@@ -685,7 +685,7 @@ def tekstowe():
 <p>Zamówione wyroby dowozimy własnym transportem na wskazany adres. Mniejsze zamówienia możemy wysłać kurierem, a towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
 <p>Koszt i termin dostawy zależą od wielkości zamówienia i miejsca dostawy. Potwierdzamy je po złożeniu zamówienia, przed płatnością.</p>
 <h2>Płatność</h2>
-<p>Za zamówienie można zapłacić online (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek podany w potwierdzeniu zamówienia.</p>
+<p>Za zamówienie można zapłacić online przez Przelewy24 (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek podany w potwierdzeniu zamówienia.</p>
 <h2>Faktura</h2>
 <p>Do każdego zamówienia wystawiamy fakturę na dane podane w zamówieniu, w tym NIP firmy.</p>''')
     tekstowa('regulamin', 'Regulamin sklepu', 'Regulamin sklepu internetowego SMK sp. z o.o.',
@@ -697,7 +697,7 @@ def tekstowe():
 <h2>Zamówienia</h2>
 <p>Dane podane w zamówieniu (firma, NIP, adres, osoba kontaktowa, telefon, e-mail) wykorzystujemy do realizacji zamówienia, dostawy i wystawienia faktury (art. 6 ust. 1 lit. b i c RODO). Dane rozliczeniowe przechowujemy przez okres wymagany przepisami podatkowymi.</p>
 <h2>Płatności i dostawa</h2>
-<p>Przy płatności online dane potrzebne do zapłaty przekazujemy operatorowi płatności, a przy wysyłce kurierem dane adresowe firmie kurierskiej, wyłącznie w zakresie potrzebnym do realizacji zamówienia.</p>
+<p>Przy płatności online dane potrzebne do zapłaty przekazujemy operatorowi płatności PayPro S.A. z siedzibą w Poznaniu (serwis Przelewy24), a przy wysyłce kurierem dane adresowe firmie kurierskiej, wyłącznie w zakresie potrzebnym do realizacji zamówienia.</p>
 <h2>Formularz zapytania</h2>
 <p>Dane z formularza (imię, firma, telefon lub e-mail, opis i załączony plik) wykorzystujemy do przygotowania oferty i kontaktu w jej sprawie (art. 6 ust. 1 lit. b RODO).</p>
 <h2>Prawa</h2>
