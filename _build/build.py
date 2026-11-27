@@ -41,6 +41,14 @@ PRODUKTY = [
                'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
                'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
          zdj=[('worki-120l-plastik-metal.webp', 'Żółte worki 120 l z nadrukiem PLASTIK + METAL na rolkach w kartonie', 1100, 1467)]),
+    dict(slug='worki-na-smieci-120l-zolte-karton-400', kat='worki', nazwa='Worki na śmieci 120 l, żółte, karton 400 szt.',
+         kod='L2012', cena=125, jedn='karton (400 szt.)',
+         krotko='Mocne żółte worki na śmieci 120 l, grubość 20 mikronów, w kartonie 400 sztuk.',
+         cechy=['Grubość: 20 mikronów', 'Kolor: żółty', 'Waga rolki: 0,850 kg', 'Karton: 400 sztuk (na większe zakupy)', 'Doskonała jakość, worki nie pękają'],
+         opis=['Mocne i wytrzymałe. Klasyczne worki na śmieci pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
+               'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
+               'Pojemne i trwałe: worki są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
+         zdj=[('worki-120l-zolte-400.webp', 'Żółte worki na śmieci 120 l w kartonie 400 sztuk', 1100, 1467)]),
 ]
 
 ZNAK = '<svg class="logo-znak" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="5"/><path d="M11 30V12h18v18"/></svg>'
@@ -225,14 +233,14 @@ def strona_glowna():
     zdj = PRODUKTY[0]['zdj'][0], PRODUKTY[1]['zdj'][0]
     preload = f'<link rel="preload" as="image" href="img/{zdj[0][0]}">\n'
     t = head(pre, 'Worki na śmieci 120 l, hurt i sklep, Warszawa | SMK sp. z o.o.',
-             'Sklep SMK z Warszawy: mocne worki na śmieci 120 l na rolce, także z nadrukiem PLASTIK + METAL do segregacji. Sprzedaż kartonami, faktura z NIP, wysyłka kurierem DPD.',
+             'Sklep SMK z Warszawy: mocne worki na śmieci 120 l, żółte i z nadrukiem PLASTIK + METAL do segregacji. Sprzedaż kartonami po 300 i 400 sztuk, faktura z NIP, wysyłka kurierem DPD.',
              '', f'<script type="application/ld+json">{ORG_LD}</script>\n', preload)
     t += naglowek(pre, '')
     t += f'''<section class="hero hero-worki" aria-labelledby="h1">
   <div class="hero-panel">
     <div class="hero-in">
       <h1 id="h1">Worki na śmieci 120&nbsp;l prosto od SMK</h1>
-      <p class="hero-lead">Mocne worki na rolce, grubość 20 mikronów, także z&nbsp;nadrukiem PLASTIK + METAL do segregacji. Sprzedajemy kartonami po 300 sztuk, z&nbsp;fakturą i&nbsp;wysyłką kurierem DPD.</p>
+      <p class="hero-lead">Mocne worki, grubość 20 mikronów, żółte i&nbsp;z&nbsp;nadrukiem PLASTIK + METAL do segregacji. Sprzedajemy kartonami po 300 i&nbsp;400 sztuk, z&nbsp;fakturą i&nbsp;wysyłką kurierem DPD.</p>
       <div class="hero-akcje">
         <a href="sklep/" class="btn btn-gl hero-cta">Przejdź do sklepu</a>
         <a href="kontakt/#zapytanie" class="btn btn-jasny">Zapytaj o większą ilość</a>
@@ -254,7 +262,7 @@ def strona_glowna():
       </div>
       <a href="sklep/" class="btn btn-obrys">Przejdź do sklepu</a>
     </div>
-    <div class="produkty produkty-2">
+    <div class="produkty produkty-3">
       {polecane}
     </div>
   </div>
@@ -302,7 +310,7 @@ def sklep():
     pre = '../'
     karty = ''.join(karta_produktu(pre, p, 'h2') for p in PRODUKTY)
     t = head(pre, 'Sklep: worki na śmieci 120 l | SMK sp. z o.o.',
-             'Sklep SMK: worki na śmieci 120 l na rolce, żółte i z nadrukiem PLASTIK + METAL, kartony po 300 sztuk. Zamówienia z fakturą, wysyłka kurierem DPD.',
+             'Sklep SMK: worki na śmieci 120 l, żółte i z nadrukiem PLASTIK + METAL, kartony po 300 i 400 sztuk. Zamówienia z fakturą, wysyłka kurierem DPD.',
              'sklep/')
     t += naglowek(pre, 'sklep/')
     t += f'''<section class="pod-glowa">
@@ -310,13 +318,13 @@ def sklep():
     {okruszki(pre, [('', 'Strona główna'), (None, 'Sklep')])}
     <h1>Sklep</h1>
     {wytlok()}
-    <p class="pod-lead">Worki na śmieci sprzedajemy kartonami po 300 sztuk. Dodaj worki do koszyka i wpisz liczbę kartonów, przy większych ilościach zapytaj o wycenę.</p>
+    <p class="pod-lead">Worki na śmieci sprzedajemy kartonami po 300 i 400 sztuk. Dodaj worki do koszyka i wpisz liczbę kartonów, przy większych ilościach zapytaj o wycenę.</p>
   </div>
 </section>
 <section class="sekcja sklep" aria-label="Oferty">
   <div class="wrap">
-    <p class="wynik" id="wynik" aria-live="polite">{len(PRODUKTY)} ofert</p>
-    <div class="produkty produkty-2" id="produkty">
+    <p class="wynik" id="wynik" aria-live="polite">{len(PRODUKTY)} {'oferta' if len(PRODUKTY) == 1 else ('oferty' if 1 < len(PRODUKTY) < 5 else 'ofert')}</p>
+    <div class="produkty produkty-3" id="produkty">
       {karty}
     </div>
   </div>
@@ -413,8 +421,8 @@ def produkt(p):
 def o_firmie():
     pre = '../'
     obszary = [
-        ('Worki na śmieci', 'Mocne worki 120 l na rolce, grubość 20 mikronów, żółte i z nadrukiem PLASTIK + METAL do segregacji.'),
-        ('Sprzedaż kartonami', 'Karton to 12 rolek po 25 sztuk, razem 300 worków. Przy większych i stałych zamówieniach przygotujemy wycenę.'),
+        ('Worki na śmieci', 'Mocne worki 120 l, grubość 20 mikronów, żółte i z nadrukiem PLASTIK + METAL do segregacji.'),
+        ('Sprzedaż kartonami', 'Kartony po 300 worków (12 rolek po 25 sztuk) i po 400 worków. Przy większych i stałych zamówieniach przygotujemy wycenę.'),
         ('Transport drogowy', 'Dowóz zamówionych worków własnym transportem na wskazany adres.'),
     ]
     ob = ''.join(f'<li><span class="nr">{i + 1:02d}</span><div><h3>{a}</h3><p>{b}</p></div></li>' for i, (a, b) in enumerate(obszary))
