@@ -73,14 +73,14 @@
       <fieldset>
         <legend>Płatność</legend>
         <label class="opcja"><input type="radio" name="platnosc" value="online" checked><span><b>Płatność online Przelewy24</b>BLIK, karta albo szybki przelew</span></label>
-        <label class="opcja"><input type="radio" name="platnosc" value="przelew"><span><b>Przelew tradycyjny</b>dane do przelewu w potwierdzeniu zamówienia</span></label>
+        <label class="opcja"><input type="radio" name="platnosc" value="przelew"><span><b>Przelew tradycyjny</b>na rachunek SMK sp. z o.o.: PL42 1090 1043 0000 0001 6767 2258 (dane także w potwierdzeniu zamówienia)</span></label>
       </fieldset>
       <label>Uwagi do zamówienia<textarea name="uwagi" rows="3"></textarea></label>
     </div>
     <aside class="podsum zam-podsum">
       <h2>Twoje zamówienie</h2>
       <ul class="zam-lista" id="zamLista"></ul>
-      <dl><div><dt>Wartość</dt><dd>potwierdzimy przed płatnością</dd></div></dl>
+      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Dostawa</dt><dd>koszt potwierdzamy przy zamówieniu</dd></div></dl>
       <label class="zgoda"><input type="checkbox" name="regulamin" required> <span>Akceptuję <a href="../regulamin/">regulamin sklepu</a> i <a href="../polityka-prywatnosci/">politykę prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Zamawiam</button>
       <p class="form-info" id="zamInfo" role="status" aria-live="polite"></p>
@@ -109,7 +109,7 @@
     </div>
     <div class="st-kol">
       <h2 class="st-h">Sklep</h2>
-      <ul><li><a href="../sklep/?kategoria=opakowania">Opakowania z tworzyw</a></li><li><a href="../sklep/?kategoria=plyty-rury">Płyty, rury i kształtowniki</a></li><li><a href="../sklep/?kategoria=budownictwo">Wyroby dla budownictwa</a></li><li><a href="../sklep/?kategoria=wyroby">Pozostałe wyroby z tworzyw</a></li><li><a href="../sklep/?kategoria=surowce">Hurt surowców i chemii</a></li></ul>
+      <ul><li><a href="../sklep/?kategoria=worki">Worki na śmieci</a></li><li><a href="../sklep/?kategoria=opakowania">Opakowania z tworzyw</a></li><li><a href="../sklep/?kategoria=plyty-rury">Płyty, rury i kształtowniki</a></li><li><a href="../sklep/?kategoria=budownictwo">Wyroby dla budownictwa</a></li><li><a href="../sklep/?kategoria=wyroby">Pozostałe wyroby z tworzyw</a></li><li><a href="../sklep/?kategoria=surowce">Hurt surowców i chemii</a></li></ul>
     </div>
     <div class="st-kol">
       <h2 class="st-h">Informacje</h2>

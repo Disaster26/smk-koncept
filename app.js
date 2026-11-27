@@ -27,7 +27,7 @@
     var k = wczytaj(), klucz = p.id + '|' + (uwagi || ''), jest = null;
     k.forEach(function (x) { if (x.klucz === klucz) jest = x; });
     if (jest) jest.ilosc += ilosc;
-    else k.push({ klucz: klucz, id: p.id, nazwa: p.nazwa, img: p.img, url: p.url, ilosc: ilosc, uwagi: uwagi || '' });
+    else k.push({ klucz: klucz, id: p.id, nazwa: p.nazwa, img: p.img, url: p.url, ilosc: ilosc, uwagi: uwagi || '', cena: p.cena || 0, jedn: p.jedn || '' });
     zapisz(k);
     toast(p.nazwa);
   }
@@ -103,6 +103,8 @@
     d.getElementById('wynik').textContent = n + (n === 1 ? ' oferta' : (n > 1 && n < 5 ? ' oferty' : ' ofert'));
   }
 
+  function zl(x) { return x.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' zł'; }
+  function wartosc(k) { return k.reduce(function (s, p) { return s + (p.cena ? p.cena * p.ilosc : 0); }, 0); }
   /* strona koszyka */
   var kl = d.getElementById('koszykLista');
   function rysujKoszyk() {
@@ -113,13 +115,15 @@
     kl.innerHTML = k.map(function (p, i) {
       return '<div class="pozycja"><a href="' + pre + esc(p.url) + '"><img src="' + pre + esc(p.img) + '" alt="" width="96" height="96"></a>' +
         '<div><h2><a href="' + pre + esc(p.url) + '">' + esc(p.nazwa) + '</a></h2>' +
-        (p.uwagi ? '<p class="poz-uwagi">Uwagi: ' + esc(p.uwagi) + '</p>' : '') + '<p class="poz-uwagi">Cena na zapytanie</p></div>' +
+        (p.uwagi ? '<p class="poz-uwagi">Uwagi: ' + esc(p.uwagi) + '</p>' : '') + '<p class="poz-uwagi">' + (p.cena ? zl(p.cena) + ' brutto / ' + esc(p.jedn || 'szt.') + ', razem <b>' + zl(p.cena * p.ilosc) + '</b>' : 'Cena na zapytanie') + '</p></div>' +
         '<div class="poz-akcje"><div class="ilosc" role="group" aria-label="Ilość"><button type="button" data-zm="-1" data-i="' + i + '" aria-label="Mniej">&minus;</button>' +
         '<input type="number" min="1" value="' + p.ilosc + '" data-i="' + i + '" aria-label="Ilość" inputmode="numeric"><button type="button" data-zm="1" data-i="' + i + '" aria-label="Więcej">+</button></div>' +
         '<button type="button" class="usun" data-usun="' + i + '">Usuń</button></div></div>';
     }).join('');
     d.getElementById('sumPoz').textContent = k.length;
     d.getElementById('sumSzt').textContent = k.reduce(function (s, p) { return s + p.ilosc; }, 0);
+    var sw = d.getElementById('sumWart'); if (sw) sw.textContent = zl(wartosc(k));
+    var sz = d.getElementById('sumZap'); if (sz) sz.hidden = !k.some(function (p) { return !p.cena; });
   }
   if (kl) {
     rysujKoszyk();
@@ -138,10 +142,11 @@
   /* zamówienie */
   var zam = d.getElementById('zamowienie');
   if (zam) {
-    var k = wczytaj(), zl = d.getElementById('zamLista');
-    zl.innerHTML = k.length ? k.map(function (p) {
-      return '<li><span>' + esc(p.nazwa) + (p.uwagi ? '<small>' + esc(p.uwagi) + '</small>' : '') + '</span><b>' + p.ilosc + ' szt.</b></li>';
+    var k = wczytaj(), zlista = d.getElementById('zamLista');
+    zlista.innerHTML = k.length ? k.map(function (p) {
+      return '<li><span>' + esc(p.nazwa) + (p.uwagi ? '<small>' + esc(p.uwagi) + '</small>' : '') + (p.cena ? '<small>' + zl(p.cena) + ' brutto / ' + esc(p.jedn || 'szt.') + '</small>' : '<small>cena na zapytanie</small>') + '</span><b>' + p.ilosc + ' ' + (p.jedn === 'karton' ? 'kart.' : 'szt.') + '</b></li>';
     }).join('') : '<li><span>Koszyk jest pusty. <a href="' + pre + 'sklep/">Przejdź do sklepu</a></span></li>';
+    var zw = d.getElementById('zamWart'); if (zw) zw.textContent = zl(wartosc(k)) + (k.some(function (p) { return !p.cena; }) ? ' + pozycje do wyceny' : '');
     zam.addEventListener('submit', function (e) {
       e.preventDefault();
       var info = d.getElementById('zamInfo'), brak = null;

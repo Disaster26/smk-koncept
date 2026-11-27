@@ -19,6 +19,7 @@ FIRMA = {
 }
 
 KATEGORIE = [
+    ('worki', 'Worki na śmieci'),
     ('opakowania', 'Opakowania z tworzyw'),
     ('plyty-rury', 'Płyty, rury i kształtowniki'),
     ('budownictwo', 'Wyroby dla budownictwa'),
@@ -29,6 +30,22 @@ KAT = dict(KATEGORIE)
 
 # Oferty na start - do podmiany na oferty przekazane przez SMK (nazwy, opisy, zdjęcia, ceny).
 PRODUKTY = [
+    dict(slug='worki-na-smieci-120l-zolte', kat='worki', nazwa='Worki na śmieci 120 l, żółte',
+         kod='R2012', cena=95, jedn='karton (12 rolek po 25 szt., 300 szt.)',
+         krotko='Mocne worki na śmieci 120 l na rolce po 25 sztuk, grubość 20 mikronów, w kartonie 300 sztuk.',
+         cechy=['Grubość: 20 mikronów', 'Kolor: żółty', 'Rolka: 25 sztuk, waga rolki 0,650 kg', 'Karton: 300 sztuk (na większe zakupy)', 'Doskonała jakość, worki nie pękają'],
+         opis=['Mocne i wytrzymałe. Klasyczne worki na śmieci pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
+               'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
+               'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
+         zdj=[('worki-120l-zolte.webp', 'Żółte worki na śmieci 120 l na rolkach w kartonie', 1100, 1467)]),
+    dict(slug='worki-na-smieci-120l-nadruk-plastik-metal', kat='worki', nazwa='Worki na śmieci 120 l z nadrukiem PLASTIK + METAL',
+         kod='RD2012', cena=100, jedn='karton (12 rolek po 25 szt., 300 szt.)',
+         krotko='Żółte worki 120 l z nadrukiem PLASTIK + METAL do segregacji, 20 mikronów, rolka 25 sztuk, karton 300 sztuk.',
+         cechy=['Grubość: 20 mikronów', 'Kolor: żółty, nadruk PLASTIK + METAL', 'Rolka: 25 sztuk, waga rolki 0,650 kg', 'Karton: 300 sztuk (na większe zakupy)', 'Doskonała jakość, worki nie pękają'],
+         opis=['Mocne i wytrzymałe worki z nadrukiem do segregacji odpadów (tworzywa sztuczne i metale). Pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
+               'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
+               'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
+         zdj=[('worki-120l-plastik-metal.webp', 'Żółte worki 120 l z nadrukiem PLASTIK + METAL na rolkach w kartonie', 1100, 1467)]),
     dict(slug='pojemniki-z-pokrywka', kat='opakowania', nazwa='Pojemniki z tworzywa z pokrywką',
          krotko='Pojemniki z tworzywa sztucznego z pokrywą do przechowywania, transportu i sprzedaży produktów.',
          opis=['Pojemniki zamykane pokrywą, do pakowania produktów spożywczych, chemii, części i drobnych wyrobów.',
@@ -192,6 +209,16 @@ def okruszki(pre, pozycje):
     return f'<nav class="okruszki" aria-label="Ścieżka"><ol>{"".join(li)}</ol></nav>\n<script type="application/ld+json">{ld}</script>\n'
 
 
+def zl(x):
+    return f"{x:,.2f}".replace(',', ' ').replace('.', ',') + ' zł'
+
+
+def cena_html(p, duza=False):
+    if p.get('cena'):
+        return f'<span class="cena">{zl(p["cena"])} <small>brutto</small></span>'
+    return '<span class="cena">Cena na zapytanie</span>'
+
+
 def karta_produktu(pre, p, h='h3'):
     z = p['zdj'][0]
     return f'''<article class="produkt" data-kat="{p['kat']}">
@@ -201,7 +228,7 @@ def karta_produktu(pre, p, h='h3'):
     <{h}><a href="{pre}produkt/{p['slug']}/">{e(p['nazwa'])}</a></{h}>
     <p>{e(p['krotko'])}</p>
     <div class="produkt-dol">
-      <span class="cena">Cena na zapytanie</span>
+      {cena_html(p)}
       <button type="button" class="btn btn-gl btn-mały" data-dodaj='{dane_js(pre, p)}'>Do koszyka</button>
     </div>
   </div>
@@ -209,7 +236,11 @@ def karta_produktu(pre, p, h='h3'):
 
 
 def dane_js(pre, p):
-    return e(json.dumps({'id': p['slug'], 'nazwa': p['nazwa'], 'img': 'img/' + p['zdj'][0][0], 'url': 'produkt/' + p['slug'] + '/'}, ensure_ascii=False), quote=True)
+    d = {'id': p['slug'], 'nazwa': p['nazwa'], 'img': 'img/' + p['zdj'][0][0], 'url': 'produkt/' + p['slug'] + '/'}
+    if p.get('cena'):
+        d['cena'] = p['cena']
+        d['jedn'] = 'karton'
+    return e(json.dumps(d, ensure_ascii=False), quote=True)
 
 
 def zapisz(sciezka, tresc):
@@ -232,7 +263,8 @@ ORG_LD = json.dumps({
 def strona_glowna():
     pre = ''
     kat_karty = []
-    zdj_kat = {'opakowania': ('opakowania-1.webp', 'Pojemniki z tworzywa z pokrywkami', 1100, 1100),
+    zdj_kat = {'worki': ('worki-120l-zolte.webp', 'Żółte worki na śmieci na rolkach w kartonie', 1100, 1467),
+               'opakowania': ('opakowania-1.webp', 'Pojemniki z tworzywa z pokrywkami', 1100, 1100),
                'plyty-rury': ('rury.webp', 'Rury z tworzywa ułożone w stos', 1100, 734),
                'budownictwo': ('budownictwo.webp', 'Montaż rury z tworzywa na budowie', 800, 1422),
                'wyroby': ('palety.webp', 'Palety z tworzywa przed magazynem', 800, 1200),
@@ -243,10 +275,6 @@ def strona_glowna():
         kat_karty.append(f'''<a class="kat" href="sklep/?kategoria={k}">
   <img src="img/{z[0]}" alt="{e(z[1])}" width="{z[2]}" height="{z[3]}" loading="lazy">
   <span class="kat-txt"><b>{t}</b><small>{n} {"oferta" if n == 1 else "oferty"}</small></span>
-</a>''')
-    kat_karty.append('''<a class="kat" href="o-firmie/#transport">
-  <img src="img/transport-2.webp" alt="Samochód ciężarowy z naczepą przed magazynem" width="1100" height="825" loading="lazy">
-  <span class="kat-txt"><b>Transport towarów</b><small>dowóz zamówień</small></span>
 </a>''')
     polecane = ''.join(karta_produktu(pre, p) for p in PRODUKTY[:4])
     preload = '<link rel="preload" as="image" href="img/hero-tel.webp" media="(max-width: 760px)">\n<link rel="preload" as="image" imagesrcset="img/hero-1024.webp 1024w, img/hero-1600.webp 1600w, img/hero-2520.webp 2520w" imagesizes="100vw" media="(min-width: 761px)">\n'
@@ -378,12 +406,19 @@ def produkt(p):
             f'<button type="button" data-do="{i}" aria-label="Zdjęcie {i + 1}"><img src="{pre}img/{z[0]}" alt="" width="{z[2]}" height="{z[3]}" loading="lazy"></button>'
             for i, z in enumerate(p['zdj'])) + '</div>'
     opis = ''.join(f'<p>{e(x)}</p>' for x in p['opis'])
+    if p.get('cechy'):
+        opis = '<ul class="kp-cechy">' + ''.join(f'<li>{e(x)}</li>' for x in p['cechy']) + '</ul>' + opis
+    if p.get('cena'):
+        kp_cena = f'<p class="kp-cena">{cena_html(p)}<small>Cena za {e(p["jedn"])}. Kod produktu: {e(p["kod"])}.</small></p>'
+    else:
+        kp_cena = '<p class="kp-cena"><span class="cena">Cena na zapytanie</span><small>Cenę potwierdzamy po złożeniu zamówienia, przed płatnością.</small></p>'
     inne = [q for q in PRODUKTY if q['slug'] != p['slug']]
     inne = sorted(inne, key=lambda q: q['kat'] != p['kat'])[:3]
     ld = json.dumps({'@context': 'https://schema.org', '@type': 'Product', 'name': p['nazwa'],
                      'description': p['krotko'], 'category': KAT[p['kat']],
                      'image': ['https://wylinka-podglad.pl/smk-koncept/img/' + z[0] for z in p['zdj']],
-                     'brand': {'@type': 'Brand', 'name': 'SMK'}}, ensure_ascii=False)
+                     'brand': {'@type': 'Brand', 'name': 'SMK'},
+                     **({'sku': p['kod'], 'offers': {'@type': 'Offer', 'price': f"{p['cena']:.2f}", 'priceCurrency': 'PLN', 'availability': 'https://schema.org/InStock'}} if p.get('cena') else {})}, ensure_ascii=False)
     t = head(pre, f"{p['nazwa']} | Sklep SMK sp. z o.o.", p['krotko'] + ' Zamówienie online z fakturą, dostawa.',
              f"produkt/{p['slug']}/")
     t += naglowek(pre, 'sklep/')
@@ -400,7 +435,7 @@ def produkt(p):
         <h1>{e(p['nazwa'])}</h1>
         {wytlok()}
         <p class="kp-krotko">{e(p['krotko'])}</p>
-        <p class="kp-cena"><span class="cena">Cena na zapytanie</span><small>Cenę potwierdzamy po złożeniu zamówienia, przed płatnością.</small></p>
+        {kp_cena}
         <form class="kp-kup" data-kup='{dane_js(pre, p)}'>
           <label class="kp-uwagi">Uwagi do pozycji (wymiary, kolor, pojemność)<input name="uwagi" maxlength="200" placeholder="np. 5 l, pokrywa czerwona"></label>
           <div class="kp-rzad">
@@ -584,7 +619,8 @@ def koszyk():
       <dl>
         <div><dt>Pozycje</dt><dd id="sumPoz">0</dd></div>
         <div><dt>Sztuki razem</dt><dd id="sumSzt">0</dd></div>
-        <div><dt>Wartość</dt><dd>potwierdzimy przed płatnością</dd></div>
+        <div><dt>Wartość produktów z ceną</dt><dd id="sumWart">0,00 zł</dd></div>
+        <div id="sumZap" hidden><dt>Pozycje z ceną na zapytanie</dt><dd>potwierdzimy przed płatnością</dd></div>
       </dl>
       <a href="{pre}zamowienie/" class="btn btn-gl">Przejdź do zamówienia</a>
       <a href="{pre}sklep/" class="btn btn-obrys">Kontynuuj zakupy</a>
@@ -642,14 +678,14 @@ def zamowienie():
       <fieldset>
         <legend>Płatność</legend>
         <label class="opcja"><input type="radio" name="platnosc" value="online" checked><span><b>Płatność online Przelewy24</b>BLIK, karta albo szybki przelew</span></label>
-        <label class="opcja"><input type="radio" name="platnosc" value="przelew"><span><b>Przelew tradycyjny</b>dane do przelewu w potwierdzeniu zamówienia</span></label>
+        <label class="opcja"><input type="radio" name="platnosc" value="przelew"><span><b>Przelew tradycyjny</b>na rachunek SMK sp. z o.o.: PL42 1090 1043 0000 0001 6767 2258 (dane także w potwierdzeniu zamówienia)</span></label>
       </fieldset>
       <label>Uwagi do zamówienia<textarea name="uwagi" rows="3"></textarea></label>
     </div>
     <aside class="podsum zam-podsum">
       <h2>Twoje zamówienie</h2>
       <ul class="zam-lista" id="zamLista"></ul>
-      <dl><div><dt>Wartość</dt><dd>potwierdzimy przed płatnością</dd></div></dl>
+      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Dostawa</dt><dd>koszt potwierdzamy przy zamówieniu</dd></div></dl>
       <label class="zgoda"><input type="checkbox" name="regulamin" required> <span>Akceptuję <a href="{pre}regulamin/">regulamin sklepu</a> i <a href="{pre}polityka-prywatnosci/">politykę prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Zamawiam</button>
       <p class="form-info" id="zamInfo" role="status" aria-live="polite"></p>
@@ -685,7 +721,7 @@ def tekstowe():
 <p>Zamówione wyroby dowozimy własnym transportem na wskazany adres. Mniejsze zamówienia możemy wysłać kurierem, a towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
 <p>Koszt i termin dostawy zależą od wielkości zamówienia i miejsca dostawy. Potwierdzamy je po złożeniu zamówienia, przed płatnością.</p>
 <h2>Płatność</h2>
-<p>Za zamówienie można zapłacić online przez Przelewy24 (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek podany w potwierdzeniu zamówienia.</p>
+<p>Za zamówienie można zapłacić online przez Przelewy24 (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek SMK sp. z o.o.: PL42 1090 1043 0000 0001 6767 2258 (Santander Bank Polska), w tytule numer zamówienia.</p>
 <h2>Faktura</h2>
 <p>Do każdego zamówienia wystawiamy fakturę na dane podane w zamówieniu, w tym NIP firmy.</p>''')
     tekstowa('regulamin', 'Regulamin sklepu', 'Regulamin sklepu internetowego SMK sp. z o.o.',
