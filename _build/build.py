@@ -32,7 +32,7 @@ PRODUKTY = [
          opis=['Mocne i wytrzymałe. Klasyczne worki na śmieci pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
                'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
                'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
-         zdj=[('worki-120l-zolte.webp', 'Żółte worki na śmieci 120 l na rolkach w kartonie', 1100, 1467)]),
+         zdj=[('worki-120l-zolte.webp', 'Żółte worki na śmieci 120 l na rolkach w kartonie', 1200, 1200)]),
     dict(slug='worki-na-smieci-120l-nadruk-plastik-metal', kat='worki', nazwa='Worki na śmieci 120 l z nadrukiem PLASTIK + METAL',
          kod='RD2012', cena=100, jedn='karton (12 rolek po 25 szt., 300 szt.)',
          krotko='Żółte worki 120 l z nadrukiem PLASTIK + METAL do segregacji, 20 mikronów, rolka 25 sztuk, karton 300 sztuk.',
@@ -40,7 +40,7 @@ PRODUKTY = [
          opis=['Mocne i wytrzymałe worki z nadrukiem do segregacji odpadów (tworzywa sztuczne i metale). Pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
                'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
                'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
-         zdj=[('worki-120l-plastik-metal.webp', 'Żółte worki 120 l z nadrukiem PLASTIK + METAL na rolkach w kartonie', 1100, 1467)]),
+         zdj=[('worki-120l-plastik-metal.webp', 'Żółte worki 120 l z nadrukiem PLASTIK + METAL na rolkach w kartonie', 1200, 1200)]),
     dict(slug='worki-na-smieci-120l-zolte-karton-400', kat='worki', nazwa='Worki na śmieci 120 l, żółte, karton 400 szt.',
          kod='L2012', cena=125, jedn='karton (400 szt.)',
          krotko='Mocne żółte worki na śmieci 120 l, grubość 20 mikronów, w kartonie 400 sztuk.',
@@ -48,7 +48,7 @@ PRODUKTY = [
          opis=['Mocne i wytrzymałe. Klasyczne worki na śmieci pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
                'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
                'Pojemne i trwałe: worki są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
-         zdj=[('worki-120l-zolte-400.webp', 'Żółte worki na śmieci 120 l w kartonie 400 sztuk', 1100, 1467)]),
+         zdj=[('worki-120l-zolte-400.webp', 'Żółte worki na śmieci 120 l w kartonie 400 sztuk', 1200, 1200)]),
 ]
 
 ZNAK = '<svg class="logo-znak" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="5"/><path d="M11 30V12h18v18"/></svg>'
