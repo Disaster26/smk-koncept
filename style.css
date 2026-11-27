@@ -367,3 +367,4 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--nieb);outline-of
 .cena small{font-size:13px;font-weight:600;color:var(--tekst2)}
 .kp-cechy{margin:0 0 18px;padding-left:20px;font-size:17px;color:var(--tekst2)}
 .kp-cechy li{margin:4px 0}
+.kp-tor img[src*="worki-"],.produkt-foto img[src*="worki-"],.miniatury img[src*="worki-"]{object-fit:contain;background:#fff}
