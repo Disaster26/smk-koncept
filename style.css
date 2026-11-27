@@ -368,3 +368,27 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--nieb);outline-of
 .kp-cechy{margin:0 0 18px;padding-left:20px;font-size:17px;color:var(--tekst2)}
 .kp-cechy li{margin:4px 0}
 .kp-tor img[src*="worki-"],.produkt-foto img[src*="worki-"],.miniatury img[src*="worki-"]{object-fit:contain;background:#fff}
+
+/* tylko worki: pierwszy ekran z produktami, siatka dwóch ofert */
+.hero-worki{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:stretch}
+.hero-worki::after{display:none}
+.hero-panel{display:flex;align-items:center;padding-left:max(16px,calc((100vw - 1240px) / 2));padding-right:clamp(16px,3vw,56px)}
+.hero-worki .hero-in{padding:56px 0}
+.hero-worki h1{font-size:clamp(40px,4.4vw,78px);max-width:10em}
+.hero-produkty{background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,32px);align-items:center;padding:clamp(20px,3.4vw,64px)}
+.hero-produkty a{display:block}
+.hero-produkty img{display:block;width:100%;height:auto;max-height:calc(100svh - var(--nag) - 96px);object-fit:contain}
+.produkty-2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:980px}
+@media (max-width:960px){
+  .hero-worki{grid-template-columns:minmax(0,1fr)}
+  .hero-panel{padding:0 16px}
+  .hero-worki .hero-in{padding:40px 0 36px}
+  .hero-produkty{padding:20px 16px}
+  .hero-produkty img{max-height:none}
+}
+@media (max-width:760px){
+  .hero-worki{min-height:0}
+  .hero-worki .hero-in{padding:28px 0 28px}
+  .hero-worki h1{font-size:clamp(32px,9.4vw,44px)}
+  .produkty-2{grid-template-columns:minmax(0,1fr)}
+}

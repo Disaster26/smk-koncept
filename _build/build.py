@@ -20,15 +20,10 @@ FIRMA = {
 
 KATEGORIE = [
     ('worki', 'Worki na śmieci'),
-    ('opakowania', 'Opakowania z tworzyw'),
-    ('plyty-rury', 'Płyty, rury i kształtowniki'),
-    ('budownictwo', 'Wyroby dla budownictwa'),
-    ('wyroby', 'Pozostałe wyroby z tworzyw'),
-    ('surowce', 'Hurt surowców i chemii'),
 ]
 KAT = dict(KATEGORIE)
 
-# Oferty na start - do podmiany na oferty przekazane przez SMK (nazwy, opisy, zdjęcia, ceny).
+# Oferty SMK (27.11 klient: w sklepie tylko worki, pozostałe grupy usunięte).
 PRODUKTY = [
     dict(slug='worki-na-smieci-120l-zolte', kat='worki', nazwa='Worki na śmieci 120 l, żółte',
          kod='R2012', cena=95, jedn='karton (12 rolek po 25 szt., 300 szt.)',
@@ -46,42 +41,6 @@ PRODUKTY = [
                'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
                'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
          zdj=[('worki-120l-plastik-metal.webp', 'Żółte worki 120 l z nadrukiem PLASTIK + METAL na rolkach w kartonie', 1100, 1467)]),
-    dict(slug='pojemniki-z-pokrywka', kat='opakowania', nazwa='Pojemniki z tworzywa z pokrywką',
-         krotko='Pojemniki z tworzywa sztucznego z pokrywą do przechowywania, transportu i sprzedaży produktów.',
-         opis=['Pojemniki zamykane pokrywą, do pakowania produktów spożywczych, chemii, części i drobnych wyrobów.',
-               'Pojemność, kolor pojemnika i pokrywy oraz ilość podają Państwo w uwagach do pozycji albo w zapytaniu. Przy większych i powtarzalnych zamówieniach przygotujemy wycenę serii.'],
-         zdj=[('opakowania-1.webp', 'Pojemniki z tworzywa z czerwonymi pokrywkami', 1100, 1100)]),
-    dict(slug='beczki-z-tworzywa', kat='opakowania', nazwa='Beczki z tworzywa sztucznego',
-         krotko='Beczki z pokrywą do przechowywania i transportu płynów, sypkich surowców i odpadów.',
-         opis=['Beczki z tworzywa sztucznego z pokrywą, do magazynowania i przewozu płynów oraz materiałów sypkich.',
-               'Pojemność, rodzaj zamknięcia i ilość prosimy wpisać w uwagach do pozycji. Beczki można zamówić razem z dowozem na wskazany adres.'],
-         zdj=[('opakowania-2.webp', 'Beczki z tworzywa sztucznego z pokrywami', 1100, 734),
-              ('hurt-1.webp', 'Niebieskie beczki na paletach przed magazynem', 800, 929)]),
-    dict(slug='rury-z-tworzyw', kat='plyty-rury', nazwa='Rury i kształtowniki z tworzyw',
-         krotko='Rury, profile i arkusze z tworzyw sztucznych do instalacji, zabudowy i dalszej obróbki.',
-         opis=['Rury z tworzyw sztucznych do instalacji, osłon i zastosowań technicznych oraz kształtowniki (profile), płyty i arkusze do dalszej obróbki i montażu.',
-               'Średnicę lub przekrój, grubość ścianki, długość odcinków i ilość podają Państwo w uwagach albo w zapytaniu z rysunkiem.'],
-         zdj=[('rury.webp', 'Szare rury z tworzywa ułożone w stos', 1100, 734)]),
-    dict(slug='elementy-dla-budownictwa', kat='budownictwo', nazwa='Elementy z tworzyw dla budownictwa',
-         krotko='Elementy z tworzyw sztucznych do instalacji i prac budowlanych.',
-         opis=['Wyroby z tworzyw sztucznych stosowane w budownictwie: elementy instalacji, osłony, łączniki i akcesoria montażowe.',
-               'Rodzaj elementu, wymiary i ilość prosimy opisać w uwagach do pozycji. Do zapytania ofertowego można dołączyć rysunek.'],
-         zdj=[('budownictwo.webp', 'Montaż elementu z tworzywa na budowie', 800, 1422)]),
-    dict(slug='palety-z-tworzywa', kat='wyroby', nazwa='Palety z tworzywa sztucznego',
-         krotko='Palety z tworzywa do magazynu i transportu, odporne na wilgoć i łatwe w myciu.',
-         opis=['Palety z tworzywa sztucznego do składowania i przewozu towarów, także tam, gdzie liczy się czystość i odporność na wilgoć.',
-               'Wymiar palety, nośność i ilość prosimy podać w uwagach do pozycji.'],
-         zdj=[('palety.webp', 'Stosy niebieskich palet z tworzywa przed magazynem', 800, 1200)]),
-    dict(slug='skrzynki-z-tworzywa', kat='wyroby', nazwa='Skrzynki z tworzywa sztucznego',
-         krotko='Ażurowe i pełne skrzynki z tworzywa do magazynu, transportu i ekspozycji.',
-         opis=['Skrzynki z tworzywa sztucznego, ustawiane w stosy, do przechowywania i przewozu towarów.',
-               'Wymiary, kolor, rodzaj ścianek (ażurowe lub pełne) i ilość prosimy wpisać w uwagach do pozycji.'],
-         zdj=[('skrzynki.webp', 'Niebieskie skrzynki z tworzywa ustawione w stosy', 1100, 1004)]),
-    dict(slug='granulat-tworzyw', kat='surowce', nazwa='Granulat tworzyw sztucznych',
-         krotko='Surowce do przetwórstwa tworzyw w sprzedaży hurtowej, z dowozem.',
-         opis=['Granulat tworzyw sztucznych i inne półprodukty do przetwórstwa, w sprzedaży hurtowej.',
-               'Rodzaj tworzywa, ilość i termin dostawy prosimy podać w uwagach. Sprzedajemy także wyroby chemiczne w opakowaniach zbiorczych.'],
-         zdj=[('hurt-2.webp', 'Granulat tworzywa sztucznego w dłoni', 800, 1425)]),
 ]
 
 ZNAK = '<svg class="logo-znak" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="5"/><path d="M11 30V12h18v18"/></svg>'
@@ -110,7 +69,7 @@ def head(pre, tytul, opis, sciezka, extra='', preload=''):
 <meta property="og:locale" content="pl_PL">
 <meta property="og:title" content="{e(tytul)}">
 <meta property="og:description" content="{e(opis)}">
-<meta property="og:image" content="https://wylinka-podglad.pl/smk-koncept/img/hero-1600.webp">
+<meta property="og:image" content="https://wylinka-podglad.pl/smk-koncept/img/worki-120l-zolte.webp">
 <link rel="icon" href="{pre}favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{pre}img/logo-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="{pre}img/apple-touch-icon.png">
@@ -131,7 +90,7 @@ def naglowek(pre, aktywny):
 <a class="pomin" href="#tresc">Przejdź do treści</a>
 <header class="naglowek">
   <div class="wrap nag-in">
-    <a href="{pre}" class="logo" aria-label="{FIRMA['nazwa']} - strona główna">{ZNAK}<span class="logo-txt"><b>SMK</b><small>tworzywa sztuczne</small></span></a>
+    <a href="{pre}" class="logo" aria-label="{FIRMA['nazwa']} - strona główna">{ZNAK}<span class="logo-txt"><b>SMK</b><small>worki na śmieci</small></span></a>
     <nav class="menu" id="menu" aria-label="Menu główne">
       {linki}
       <a href="{pre}kontakt/#zapytanie" class="menu-cta">Zapytaj o wycenę</a>
@@ -152,7 +111,7 @@ def stopka(pre):
 <footer class="stopka">
   <div class="wrap stopka-in">
     <div class="st-kol st-firma">
-      <a href="{pre}" class="logo logo-st" aria-label="{FIRMA['nazwa']}">{ZNAK}<span class="logo-txt"><b>SMK</b><small>tworzywa sztuczne</small></span></a>
+      <a href="{pre}" class="logo logo-st" aria-label="{FIRMA['nazwa']}">{ZNAK}<span class="logo-txt"><b>SMK</b><small>worki na śmieci</small></span></a>
       <p>{FIRMA['nazwa']}<br>{FIRMA['ulica']}<br>{FIRMA['kod']} {FIRMA['miasto']}</p>
       <p>KRS {FIRMA['krs']}<br>NIP {FIRMA['nip']}</p>
     </div>
@@ -262,51 +221,27 @@ ORG_LD = json.dumps({
 # ---------- strona główna ----------
 def strona_glowna():
     pre = ''
-    kat_karty = []
-    zdj_kat = {'worki': ('worki-120l-zolte.webp', 'Żółte worki na śmieci na rolkach w kartonie', 1100, 1467),
-               'opakowania': ('opakowania-1.webp', 'Pojemniki z tworzywa z pokrywkami', 1100, 1100),
-               'plyty-rury': ('rury.webp', 'Rury z tworzywa ułożone w stos', 1100, 734),
-               'budownictwo': ('budownictwo.webp', 'Montaż rury z tworzywa na budowie', 800, 1422),
-               'wyroby': ('palety.webp', 'Palety z tworzywa przed magazynem', 800, 1200),
-               'surowce': ('hurt-2.webp', 'Granulat tworzywa sztucznego w dłoni', 800, 1425)}
-    for k, t in KATEGORIE:
-        z = zdj_kat[k]
-        n = sum(1 for p in PRODUKTY if p['kat'] == k)
-        kat_karty.append(f'''<a class="kat" href="sklep/?kategoria={k}">
-  <img src="img/{z[0]}" alt="{e(z[1])}" width="{z[2]}" height="{z[3]}" loading="lazy">
-  <span class="kat-txt"><b>{t}</b><small>{n} {"oferta" if n == 1 else "oferty"}</small></span>
-</a>''')
-    polecane = ''.join(karta_produktu(pre, p) for p in PRODUKTY[:4])
-    preload = '<link rel="preload" as="image" href="img/hero-tel.webp" media="(max-width: 760px)">\n<link rel="preload" as="image" imagesrcset="img/hero-1024.webp 1024w, img/hero-1600.webp 1600w, img/hero-2520.webp 2520w" imagesizes="100vw" media="(min-width: 761px)">\n'
-    t = head(pre, 'Opakowania i wyroby z tworzyw sztucznych, Warszawa | SMK sp. z o.o.',
-             'Sklep SMK z Warszawy: opakowania, płyty, rury i kształtowniki z tworzyw sztucznych, wyroby dla budownictwa, hurt surowców i transport. Zamówienia online.',
+    polecane = ''.join(karta_produktu(pre, p) for p in PRODUKTY)
+    zdj = PRODUKTY[0]['zdj'][0], PRODUKTY[1]['zdj'][0]
+    preload = f'<link rel="preload" as="image" href="img/{zdj[0][0]}">\n'
+    t = head(pre, 'Worki na śmieci 120 l, hurt i sklep, Warszawa | SMK sp. z o.o.',
+             'Sklep SMK z Warszawy: mocne worki na śmieci 120 l na rolce, także z nadrukiem PLASTIK + METAL do segregacji. Sprzedaż kartonami, faktura z NIP, dostawa.',
              '', f'<script type="application/ld+json">{ORG_LD}</script>\n', preload)
     t += naglowek(pre, '')
-    t += f'''<section class="hero" aria-labelledby="h1">
-  <picture class="hero-foto">
-    <source media="(max-width: 760px)" srcset="img/hero-tel.webp" width="900" height="1429">
-    <img src="img/hero-1600.webp" srcset="img/hero-1024.webp 1024w, img/hero-1600.webp 1600w, img/hero-2520.webp 2520w" sizes="100vw" alt="Niebieskie skrzynki z tworzywa sztucznego ustawione w stosy" width="2520" height="2200" fetchpriority="high">
-  </picture>
-  <div class="wrap hero-in">
-    <h1 id="h1">Opakowania i wyroby z&nbsp;tworzyw sztucznych z&nbsp;Warszawy</h1>
-    <p class="hero-lead">Opakowania, płyty, rury i kształtowniki, wyroby dla budownictwa i surowce w hurcie. Zamówienie składa się online, a towar dowozimy własnym transportem. Od produkcji po dowóz.</p>
-    <div class="hero-akcje">
-      <a href="sklep/" class="btn btn-gl hero-cta">Przejdź do sklepu</a>
-      <a href="kontakt/#zapytanie" class="btn btn-jasny">Zapytaj o wycenę</a>
+    t += f'''<section class="hero hero-worki" aria-labelledby="h1">
+  <div class="hero-panel">
+    <div class="hero-in">
+      <h1 id="h1">Worki na śmieci 120&nbsp;l prosto od SMK</h1>
+      <p class="hero-lead">Mocne worki na rolce, grubość 20 mikronów, także z&nbsp;nadrukiem PLASTIK + METAL do segregacji. Sprzedajemy kartonami po 300 sztuk, z&nbsp;fakturą i&nbsp;dowozem z&nbsp;Warszawy.</p>
+      <div class="hero-akcje">
+        <a href="sklep/" class="btn btn-gl hero-cta">Przejdź do sklepu</a>
+        <a href="kontakt/#zapytanie" class="btn btn-jasny">Zapytaj o większą ilość</a>
+      </div>
     </div>
   </div>
-</section>
-
-<section class="sekcja" aria-labelledby="h-kat">
-  <div class="wrap">
-    <div class="sek-glowa">
-      <h2 id="h-kat">Czego Państwo szukają?</h2>
-      {wytlok()}
-      <p>Oferta SMK w sześciu grupach. Każdą pozycję można zamówić od razu albo zapytać o wycenę z wymiarami, ilością lub rysunkiem.</p>
-    </div>
-    <div class="kategorie">
-      {''.join(kat_karty)}
-    </div>
+  <div class="hero-produkty">
+    <a href="produkt/{PRODUKTY[0]['slug']}/"><img src="img/{zdj[0][0]}" alt="{e(zdj[0][1])}" width="{zdj[0][2]}" height="{zdj[0][3]}" fetchpriority="high"></a>
+    <a href="produkt/{PRODUKTY[1]['slug']}/"><img src="img/{zdj[1][0]}" alt="{e(zdj[1][1])}" width="{zdj[1][2]}" height="{zdj[1][3]}"></a>
   </div>
 </section>
 
@@ -314,12 +249,12 @@ def strona_glowna():
   <div class="wrap">
     <div class="sek-glowa sek-glowa-rzad">
       <div>
-        <h2 id="h-pol">Oferty w sklepie</h2>
+        <h2 id="h-pol">Worki w sklepie</h2>
         {wytlok()}
       </div>
-      <a href="sklep/" class="btn btn-obrys">Wszystkie oferty</a>
+      <a href="sklep/" class="btn btn-obrys">Przejdź do sklepu</a>
     </div>
-    <div class="produkty">
+    <div class="produkty produkty-2">
       {polecane}
     </div>
   </div>
@@ -331,11 +266,11 @@ def strona_glowna():
       <h2 id="h-jak">Jak zamówić</h2>
       {wytlok(True)}
       <ol class="kroki">
-        <li><b>Wybór oferty.</b> Dodają Państwo produkty do koszyka i w uwagach wpisują wymiary, kolor albo ilość.</li>
+        <li><b>Wybór worków.</b> Dodają Państwo worki do koszyka i wpisują liczbę kartonów.</li>
         <li><b>Zamówienie z danymi do faktury.</b> Płatność online albo tradycyjnym przelewem, faktura z NIP firmy.</li>
         <li><b>Dostawa.</b> Dowozimy własnym transportem albo kurierem, można też odebrać towar osobiście.</li>
       </ol>
-      <p class="jak-dop">Nietypowe wymiary i większe serie najlepiej opisać w zapytaniu ofertowym. Można dołączyć rysunek lub zdjęcie.</p>
+      <p class="jak-dop">Przy większych i stałych zamówieniach najlepiej wysłać zapytanie, przygotujemy wycenę.</p>
       <a href="kontakt/#zapytanie" class="btn btn-gl">Wyślij zapytanie</a>
     </div>
     <figure class="jak-foto">
@@ -347,12 +282,12 @@ def strona_glowna():
 <section class="sekcja" aria-labelledby="h-firma">
   <div class="wrap firma-in">
     <figure class="firma-foto">
-      <img src="img/firma.webp" alt="Linia produkcyjna z butelkami z tworzywa w zakładzie" width="1600" height="1068" loading="lazy">
+      <img src="img/transport-2.webp" alt="Samochód ciężarowy z naczepą przed magazynem" width="1100" height="825" loading="lazy">
     </figure>
     <div class="firma-tekst">
       <h2 id="h-firma">SMK sp. z o.o.</h2>
       {wytlok()}
-      <p>Warszawska spółka zajmująca się wyrobami z tworzyw sztucznych: od opakowań, przez płyty, rury i kształtowniki, po elementy dla budownictwa. Do produkcji dochodzi hurtowa sprzedaż surowców i wyrobów chemicznych oraz transport drogowy towarów.</p>
+      <p>Warszawska spółka, która dostarcza worki na śmieci firmom i odbiorcom hurtowym. Worki sprzedajemy kartonami, z fakturą, i dowozimy je własnym transportem.</p>
       <a href="o-firmie/" class="btn btn-obrys">Więcej o firmie</a>
     </div>
   </div>
@@ -365,11 +300,9 @@ def strona_glowna():
 # ---------- sklep ----------
 def sklep():
     pre = '../'
-    filtry = '<a href="./" class="filtr" data-filtr="">Wszystkie</a>' + ''.join(
-        f'<a href="?kategoria={k}" class="filtr" data-filtr="{k}">{t}</a>' for k, t in KATEGORIE)
     karty = ''.join(karta_produktu(pre, p, 'h2') for p in PRODUKTY)
-    t = head(pre, 'Sklep: wyroby z tworzyw sztucznych | SMK sp. z o.o.',
-             'Sklep SMK: pojemniki, beczki, rury, płyty, palety i skrzynki z tworzyw sztucznych oraz granulat w hurcie. Zamówienia z fakturą, dostawa własnym transportem.',
+    t = head(pre, 'Sklep: worki na śmieci 120 l | SMK sp. z o.o.',
+             'Sklep SMK: worki na śmieci 120 l na rolce, żółte i z nadrukiem PLASTIK + METAL, kartony po 300 sztuk. Zamówienia z fakturą, dostawa własnym transportem.',
              'sklep/')
     t += naglowek(pre, 'sklep/')
     t += f'''<section class="pod-glowa">
@@ -377,14 +310,13 @@ def sklep():
     {okruszki(pre, [('', 'Strona główna'), (None, 'Sklep')])}
     <h1>Sklep</h1>
     {wytlok()}
-    <p class="pod-lead">Wybierz ofertę, dodaj do koszyka i w uwagach wpisz wymiary albo ilość. Ceny nietypowych zamówień potwierdzamy przed realizacją.</p>
+    <p class="pod-lead">Worki na śmieci sprzedajemy kartonami po 300 sztuk. Dodaj worki do koszyka i wpisz liczbę kartonów, przy większych ilościach zapytaj o wycenę.</p>
   </div>
 </section>
 <section class="sekcja sklep" aria-label="Oferty">
   <div class="wrap">
-    <div class="filtry" role="navigation" aria-label="Kategorie">{filtry}</div>
     <p class="wynik" id="wynik" aria-live="polite">{len(PRODUKTY)} ofert</p>
-    <div class="produkty produkty-sklep" id="produkty">
+    <div class="produkty produkty-2" id="produkty">
       {karty}
     </div>
   </div>
@@ -437,7 +369,7 @@ def produkt(p):
         <p class="kp-krotko">{e(p['krotko'])}</p>
         {kp_cena}
         <form class="kp-kup" data-kup='{dane_js(pre, p)}'>
-          <label class="kp-uwagi">Uwagi do pozycji (wymiary, kolor, pojemność)<input name="uwagi" maxlength="200" placeholder="np. 5 l, pokrywa czerwona"></label>
+          <label class="kp-uwagi">Uwagi do pozycji<input name="uwagi" maxlength="200" placeholder="np. termin dostawy"></label>
           <div class="kp-rzad">
             <div class="ilosc" role="group" aria-label="Ilość">
               <button type="button" data-ile="-1" aria-label="Mniej">&minus;</button>
@@ -450,7 +382,7 @@ def produkt(p):
         <ul class="kp-fakty">
           <li><b>Płatność</b>online albo przelewem, faktura z NIP</li>
           <li><b>Dostawa</b>transport własny, kurier albo odbiór osobisty</li>
-          <li><b>Seria lub nietypowy wymiar</b><a href="{pre}kontakt/?temat={p['slug']}#zapytanie">zapytanie z rysunkiem</a></li>
+          <li><b>Większa ilość</b><a href="{pre}kontakt/?temat={p['slug']}#zapytanie">zapytanie o wycenę</a></li>
         </ul>
       </div>
     </div>
@@ -468,7 +400,7 @@ def produkt(p):
 <section class="sekcja" aria-labelledby="h-inne">
   <div class="wrap">
     <div class="sek-glowa"><h2 id="h-inne">Zobacz też</h2>{wytlok()}</div>
-    <div class="produkty produkty-3">{''.join(karta_produktu(pre, q) for q in inne)}</div>
+    <div class="produkty produkty-2">{''.join(karta_produktu(pre, q) for q in inne)}</div>
   </div>
 </section>
 <script type="application/ld+json">{ld}</script>
@@ -481,16 +413,13 @@ def produkt(p):
 def o_firmie():
     pre = '../'
     obszary = [
-        ('Opakowania z tworzyw', 'Pojemniki, beczki i inne opakowania do przechowywania, transportu i sprzedaży.'),
-        ('Płyty, rury i kształtowniki', 'Półprodukty z tworzyw do dalszej obróbki, zabudowy i montażu.'),
-        ('Wyroby dla budownictwa', 'Elementy z tworzyw stosowane w instalacjach i pracach budowlanych.'),
-        ('Pozostałe wyroby', 'Skrzynki, palety i wyroby z tworzyw na zamówienie.'),
-        ('Hurt surowców i chemii', 'Granulat, półprodukty i wyroby chemiczne w sprzedaży hurtowej.'),
-        ('Transport drogowy', 'Dowóz zamówionych wyrobów i surowców na wskazany adres.'),
+        ('Worki na śmieci', 'Mocne worki 120 l na rolce, grubość 20 mikronów, żółte i z nadrukiem PLASTIK + METAL do segregacji.'),
+        ('Sprzedaż kartonami', 'Karton to 12 rolek po 25 sztuk, razem 300 worków. Przy większych i stałych zamówieniach przygotujemy wycenę.'),
+        ('Transport drogowy', 'Dowóz zamówionych worków własnym transportem na wskazany adres.'),
     ]
     ob = ''.join(f'<li><span class="nr">{i + 1:02d}</span><div><h3>{a}</h3><p>{b}</p></div></li>' for i, (a, b) in enumerate(obszary))
-    t = head(pre, 'O firmie | SMK sp. z o.o., tworzywa sztuczne Warszawa',
-             'SMK sp. z o.o. z Warszawy: produkcja opakowań i wyrobów z tworzyw sztucznych, hurt surowców i transport towarów. Dane rejestrowe firmy.',
+    t = head(pre, 'O firmie | SMK sp. z o.o., worki na śmieci Warszawa',
+             'SMK sp. z o.o. z Warszawy: worki na śmieci 120 l w sprzedaży hurtowej, kartonami, z fakturą i dowozem własnym transportem. Dane rejestrowe firmy.',
              'o-firmie/', f'<script type="application/ld+json">{ORG_LD}</script>\n')
     t += naglowek(pre, 'o-firmie/')
     t += f'''<section class="pod-glowa">
@@ -498,18 +427,15 @@ def o_firmie():
     {okruszki(pre, [('', 'Strona główna'), (None, 'O firmie')])}
     <h1>O firmie</h1>
     {wytlok()}
-    <p class="pod-lead">SMK sp. z o.o. to warszawska spółka zajmująca się wyrobami z tworzyw sztucznych, od produkcji po dowóz towaru do klienta.</p>
+    <p class="pod-lead">SMK sp. z o.o. to warszawska spółka, która dostarcza worki na śmieci firmom i odbiorcom hurtowym, razem z dowozem do klienta.</p>
   </div>
 </section>
-<figure class="pas-foto">
-  <img src="{pre}img/firma-2400.webp" srcset="{pre}img/firma.webp 1600w, {pre}img/firma-2400.webp 2400w" sizes="100vw" alt="Linia produkcyjna z butelkami z tworzywa w zakładzie" width="2400" height="1602" fetchpriority="high">
-</figure>
 <section class="sekcja" aria-labelledby="h-zakres">
   <div class="wrap">
     <div class="sek-glowa">
       <h2 id="h-zakres">Zakres działalności</h2>
       {wytlok()}
-      <p>Produkcja, sprzedaż hurtowa i transport w jednej firmie. Zamówienie, faktura i dostawa załatwiane w jednym miejscu.</p>
+      <p>Worki, sprzedaż i transport w jednej firmie. Zamówienie, faktura i dostawa załatwiane w jednym miejscu.</p>
     </div>
     <ol class="obszary">{ob}</ol>
   </div>
@@ -519,7 +445,7 @@ def o_firmie():
     <div class="jak-tekst">
       <h2 id="h-trans">Transport towarów</h2>
       {wytlok(True)}
-      <p class="jak-dop">Zamówione wyroby i surowce dowozimy na wskazany adres, bez szukania osobnego przewoźnika. Termin i koszt dostawy potwierdzamy przy zamówieniu.</p>
+      <p class="jak-dop">Zamówione worki dowozimy na wskazany adres, bez szukania osobnego przewoźnika. Termin i koszt dostawy potwierdzamy przy zamówieniu.</p>
       <a href="{pre}kontakt/?temat=transport#zapytanie" class="btn btn-gl">Zapytaj o transport</a>
     </div>
     <figure class="jak-foto"><img src="{pre}img/transport-2.webp" alt="Samochód ciężarowy z naczepą przed magazynem" width="1100" height="825" loading="lazy"></figure>
@@ -548,7 +474,7 @@ def kontakt():
     pre = '../'
     opcje = ''.join(f'<option value="{p["slug"]}">{e(p["nazwa"])}</option>' for p in PRODUKTY)
     t = head(pre, 'Kontakt i zapytanie ofertowe | SMK sp. z o.o., Warszawa',
-             'Kontakt z SMK sp. z o.o.: telefon, e-mail, adres ul. Przyczółkowa 400 w Warszawie z mapą dojazdu. Zapytanie ofertowe z rysunkiem.',
+             'Kontakt z SMK sp. z o.o.: telefon, e-mail, adres ul. Przyczółkowa 400 w Warszawie z mapą dojazdu. Zapytanie o worki na śmieci i większe ilości.',
              'kontakt/')
     t += naglowek(pre, 'kontakt/')
     t += f'''<section class="pod-glowa">
@@ -578,16 +504,16 @@ def kontakt():
         <select name="temat">
           <option value="">Wybierz albo opisz poniżej</option>
           {opcje}
-          <option value="transport">Transport towarów</option>
-          <option value="inne">Inny wyrób z tworzyw</option>
+          <option value="hurt">Większa ilość lub stałe dostawy</option>
+          <option value="inne">Inne pytanie</option>
         </select>
       </label>
       <div class="pola2">
         <label>Imię i firma<input name="kto" autocomplete="organization" placeholder="np. Jan Nowak, Firma XYZ"></label>
         <label>Telefon lub e-mail<input name="kontakt" autocomplete="email" placeholder="do odpowiedzi" required></label>
       </div>
-      <label>Opis: wyrób, wymiary, ilość, termin<textarea name="opis" rows="5" placeholder="np. pojemnik 5 l z pokrywką, 2 000 szt., dostawa w grudniu"></textarea></label>
-      <label class="plik">Rysunek lub zdjęcie (opcjonalnie, do 10 MB)<input type="file" name="plik" accept=".pdf,.jpg,.jpeg,.png,.dwg,.dxf"></label>
+      <label>Opis: rodzaj worków, ilość, termin<textarea name="opis" rows="5" placeholder="np. worki 120 l żółte, 20 kartonów, dostawa w grudniu"></textarea></label>
+      <label class="plik">Plik, np. zapytanie lub zdjęcie (opcjonalnie, do 10 MB)<input type="file" name="plik" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"></label>
       <label class="zgoda"><input type="checkbox" name="zgoda" required> <span>Zgadzam się na kontakt w sprawie zapytania. Szczegóły w <a href="{pre}polityka-prywatnosci/">polityce prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Wyślij zapytanie</button>
       <p class="form-info" id="formInfo" role="status" aria-live="polite"></p>
@@ -718,7 +644,7 @@ def tekstowe():
     tekstowa('dostawa-i-platnosci', 'Dostawa i płatności',
              'Sposoby dostawy i płatności w sklepie SMK sp. z o.o.: transport własny, kurier, odbiór osobisty, płatność online lub przelewem.',
              f'''<h2>Dostawa</h2>
-<p>Zamówione wyroby dowozimy własnym transportem na wskazany adres. Mniejsze zamówienia możemy wysłać kurierem, a towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
+<p>Zamówione worki dowozimy własnym transportem na wskazany adres. Mniejsze zamówienia możemy wysłać kurierem, a towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
 <p>Koszt i termin dostawy zależą od wielkości zamówienia i miejsca dostawy. Potwierdzamy je po złożeniu zamówienia, przed płatnością.</p>
 <h2>Płatność</h2>
 <p>Za zamówienie można zapłacić online przez Przelewy24 (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek SMK sp. z o.o.: PL42 1090 1043 0000 0001 6767 2258 (Santander Bank Polska), w tytule numer zamówienia.</p>
