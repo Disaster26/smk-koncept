@@ -42,13 +42,13 @@ PRODUKTY = [
                'Pojemne i trwałe: worki na rolce są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
          zdj=[('worki-120l-plastik-metal.webp', 'Żółte worki 120 l z nadrukiem PLASTIK + METAL na rolkach w kartonie', 1200, 1200)]),
     dict(slug='worki-na-smieci-120l-zolte-karton-400', kat='worki', nazwa='Worki na śmieci 120 l, żółte, karton 400 szt.',
-         kod='L2012', cena=125, jedn='karton (400 szt.)',
-         krotko='Mocne żółte worki na śmieci 120 l, grubość 20 mikronów, w kartonie 400 sztuk.',
-         cechy=['Grubość: 20 mikronów', 'Kolor: żółty', 'Waga rolki: 0,850 kg', 'Karton: 400 sztuk (na większe zakupy)', 'Doskonała jakość, worki nie pękają'],
+         kod='L2012', cena=125, jedn='karton (400 szt., worki luzem)',
+         krotko='Mocne żółte worki na śmieci 120 l luzem (składane, nie na rolce), grubość 20 mikronów, w kartonie 400 sztuk.',
+         cechy=['Grubość: 20 mikronów', 'Kolor: żółty', 'Pakowanie: worki luzem, składane (nie na rolce)', 'Karton: 400 sztuk (na większe zakupy)', 'Doskonała jakość, worki nie pękają'],
          opis=['Mocne i wytrzymałe. Klasyczne worki na śmieci pozwalają higienicznie i bezpiecznie przechowywać odpady powstałe podczas gotowania, rozpakowywania przesyłek czy sprzątania.',
                'Prosta, praktyczna forma i dostępność w kilku rozmiarach (60, 80 i 120 litrów) i kolorach.',
                'Pojemne i trwałe: worki są wykonane z mocnej folii, która zapewnia szczelność i odporność na przypadkowe rozerwanie. Dzięki temu można składować zużyte produkty i odpady bez obaw o przedostanie się do kosza.'],
-         zdj=[('worki-120l-zolte-400.webp', 'Żółte worki na śmieci 120 l w kartonie 400 sztuk', 1200, 1200)]),
+         zdj=[('worki-120l-zolte-400.webp', 'Żółte worki na śmieci 120 l luzem w kartonie 400 sztuk', 1200, 1200)]),
 ]
 
 ZNAK = '<svg class="logo-znak" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="5"/><path d="M11 30V12h18v18"/></svg>'
@@ -422,7 +422,7 @@ def o_firmie():
     pre = '../'
     obszary = [
         ('Worki na śmieci', 'Mocne worki 120 l, grubość 20 mikronów, żółte i z nadrukiem PLASTIK + METAL do segregacji.'),
-        ('Sprzedaż kartonami', 'Kartony po 300 worków (12 rolek po 25 sztuk) i po 400 worków. Przy większych i stałych zamówieniach przygotujemy wycenę.'),
+        ('Sprzedaż kartonami', 'Kartony po 300 worków (12 rolek po 25 sztuk) i po 400 worków luzem. Przy większych i stałych zamówieniach przygotujemy wycenę.'),
         ('Transport drogowy', 'Dowóz zamówionych worków własnym transportem na wskazany adres.'),
     ]
     ob = ''.join(f'<li><span class="nr">{i + 1:02d}</span><div><h3>{a}</h3><p>{b}</p></div></li>' for i, (a, b) in enumerate(obszary))
