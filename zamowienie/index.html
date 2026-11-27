@@ -65,8 +65,8 @@
       </fieldset>
       <fieldset>
         <legend>Dostawa</legend>
-        <label class="opcja"><input type="radio" name="dostawa" value="transport" checked><span><b>Transport SMK</b>dowóz na wskazany adres, koszt potwierdzamy przy zamówieniu</span></label>
-        <label class="opcja"><input type="radio" name="dostawa" value="kurier"><span><b>Kurier</b>przesyłki paczkowe i paletowe</span></label>
+        <label class="opcja"><input type="radio" name="dostawa" value="dpd" checked><span><b>Kurier DPD</b>koszt wysyłki doliczamy do ceny worków</span></label>
+        <label class="opcja"><input type="radio" name="dostawa" value="transport"><span><b>Transport SMK</b>dowóz na wskazany adres przy większych zamówieniach, koszt potwierdzamy przy zamówieniu</span></label>
         <label class="opcja"><input type="radio" name="dostawa" value="odbior"><span><b>Odbiór osobisty</b>ul. Przyczółkowa 400, Warszawa</span></label>
         <label>Adres dostawy, jeśli inny niż do faktury<textarea name="adres_dostawy" rows="2"></textarea></label>
       </fieldset>
@@ -80,7 +80,7 @@
     <aside class="podsum zam-podsum">
       <h2>Twoje zamówienie</h2>
       <ul class="zam-lista" id="zamLista"></ul>
-      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Dostawa</dt><dd>koszt potwierdzamy przy zamówieniu</dd></div></dl>
+      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Wysyłka</dt><dd>kurier DPD, koszt doliczamy do zamówienia</dd></div></dl>
       <label class="zgoda"><input type="checkbox" name="regulamin" required> <span>Akceptuję <a href="../regulamin/">regulamin sklepu</a> i <a href="../polityka-prywatnosci/">politykę prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Zamawiam</button>
       <p class="form-info" id="zamInfo" role="status" aria-live="polite"></p>

@@ -174,7 +174,7 @@ def zl(x):
 
 def cena_html(p, duza=False):
     if p.get('cena'):
-        return f'<span class="cena">{zl(p["cena"])} <small>brutto</small></span>'
+        return f'<span class="cena">{zl(p["cena"])} <small>brutto + wysyłka</small></span>'
     return '<span class="cena">Cena na zapytanie</span>'
 
 
@@ -225,14 +225,14 @@ def strona_glowna():
     zdj = PRODUKTY[0]['zdj'][0], PRODUKTY[1]['zdj'][0]
     preload = f'<link rel="preload" as="image" href="img/{zdj[0][0]}">\n'
     t = head(pre, 'Worki na śmieci 120 l, hurt i sklep, Warszawa | SMK sp. z o.o.',
-             'Sklep SMK z Warszawy: mocne worki na śmieci 120 l na rolce, także z nadrukiem PLASTIK + METAL do segregacji. Sprzedaż kartonami, faktura z NIP, dostawa.',
+             'Sklep SMK z Warszawy: mocne worki na śmieci 120 l na rolce, także z nadrukiem PLASTIK + METAL do segregacji. Sprzedaż kartonami, faktura z NIP, wysyłka kurierem DPD.',
              '', f'<script type="application/ld+json">{ORG_LD}</script>\n', preload)
     t += naglowek(pre, '')
     t += f'''<section class="hero hero-worki" aria-labelledby="h1">
   <div class="hero-panel">
     <div class="hero-in">
       <h1 id="h1">Worki na śmieci 120&nbsp;l prosto od SMK</h1>
-      <p class="hero-lead">Mocne worki na rolce, grubość 20 mikronów, także z&nbsp;nadrukiem PLASTIK + METAL do segregacji. Sprzedajemy kartonami po 300 sztuk, z&nbsp;fakturą i&nbsp;dowozem z&nbsp;Warszawy.</p>
+      <p class="hero-lead">Mocne worki na rolce, grubość 20 mikronów, także z&nbsp;nadrukiem PLASTIK + METAL do segregacji. Sprzedajemy kartonami po 300 sztuk, z&nbsp;fakturą i&nbsp;wysyłką kurierem DPD.</p>
       <div class="hero-akcje">
         <a href="sklep/" class="btn btn-gl hero-cta">Przejdź do sklepu</a>
         <a href="kontakt/#zapytanie" class="btn btn-jasny">Zapytaj o większą ilość</a>
@@ -268,7 +268,7 @@ def strona_glowna():
       <ol class="kroki">
         <li><b>Wybór worków.</b> Dodają Państwo worki do koszyka i wpisują liczbę kartonów.</li>
         <li><b>Zamówienie z danymi do faktury.</b> Płatność online albo tradycyjnym przelewem, faktura z NIP firmy.</li>
-        <li><b>Dostawa.</b> Dowozimy własnym transportem albo kurierem, można też odebrać towar osobiście.</li>
+        <li><b>Wysyłka.</b> Worki wysyłamy kurierem DPD, koszt wysyłki doliczamy do ceny worków.</li>
       </ol>
       <p class="jak-dop">Przy większych i stałych zamówieniach najlepiej wysłać zapytanie, przygotujemy wycenę.</p>
       <a href="kontakt/#zapytanie" class="btn btn-gl">Wyślij zapytanie</a>
@@ -302,7 +302,7 @@ def sklep():
     pre = '../'
     karty = ''.join(karta_produktu(pre, p, 'h2') for p in PRODUKTY)
     t = head(pre, 'Sklep: worki na śmieci 120 l | SMK sp. z o.o.',
-             'Sklep SMK: worki na śmieci 120 l na rolce, żółte i z nadrukiem PLASTIK + METAL, kartony po 300 sztuk. Zamówienia z fakturą, dostawa własnym transportem.',
+             'Sklep SMK: worki na śmieci 120 l na rolce, żółte i z nadrukiem PLASTIK + METAL, kartony po 300 sztuk. Zamówienia z fakturą, wysyłka kurierem DPD.',
              'sklep/')
     t += naglowek(pre, 'sklep/')
     t += f'''<section class="pod-glowa">
@@ -341,7 +341,7 @@ def produkt(p):
     if p.get('cechy'):
         opis = '<ul class="kp-cechy">' + ''.join(f'<li>{e(x)}</li>' for x in p['cechy']) + '</ul>' + opis
     if p.get('cena'):
-        kp_cena = f'<p class="kp-cena">{cena_html(p)}<small>Cena za {e(p["jedn"])}. Kod produktu: {e(p["kod"])}.</small></p>'
+        kp_cena = f'<p class="kp-cena">{cena_html(p)}<small>Cena za {e(p["jedn"])}, bez kosztu wysyłki. Wysyłkę kurierem DPD doliczamy do zamówienia. Kod produktu: {e(p["kod"])}.</small></p>'
     else:
         kp_cena = '<p class="kp-cena"><span class="cena">Cena na zapytanie</span><small>Cenę potwierdzamy po złożeniu zamówienia, przed płatnością.</small></p>'
     inne = [q for q in PRODUKTY if q['slug'] != p['slug']]
@@ -381,7 +381,7 @@ def produkt(p):
         </form>
         <ul class="kp-fakty">
           <li><b>Płatność</b>online albo przelewem, faktura z NIP</li>
-          <li><b>Dostawa</b>transport własny, kurier albo odbiór osobisty</li>
+          <li><b>Wysyłka</b>kurierem DPD, koszt doliczany do ceny worków</li>
           <li><b>Większa ilość</b><a href="{pre}kontakt/?temat={p['slug']}#zapytanie">zapytanie o wycenę</a></li>
         </ul>
       </div>
@@ -546,6 +546,7 @@ def koszyk():
         <div><dt>Pozycje</dt><dd id="sumPoz">0</dd></div>
         <div><dt>Sztuki razem</dt><dd id="sumSzt">0</dd></div>
         <div><dt>Wartość produktów z ceną</dt><dd id="sumWart">0,00 zł</dd></div>
+        <div><dt>Wysyłka</dt><dd>kurier DPD, doliczana do zamówienia</dd></div>
         <div id="sumZap" hidden><dt>Pozycje z ceną na zapytanie</dt><dd>potwierdzimy przed płatnością</dd></div>
       </dl>
       <a href="{pre}zamowienie/" class="btn btn-gl">Przejdź do zamówienia</a>
@@ -596,8 +597,8 @@ def zamowienie():
       </fieldset>
       <fieldset>
         <legend>Dostawa</legend>
-        <label class="opcja"><input type="radio" name="dostawa" value="transport" checked><span><b>Transport SMK</b>dowóz na wskazany adres, koszt potwierdzamy przy zamówieniu</span></label>
-        <label class="opcja"><input type="radio" name="dostawa" value="kurier"><span><b>Kurier</b>przesyłki paczkowe i paletowe</span></label>
+        <label class="opcja"><input type="radio" name="dostawa" value="dpd" checked><span><b>Kurier DPD</b>koszt wysyłki doliczamy do ceny worków</span></label>
+        <label class="opcja"><input type="radio" name="dostawa" value="transport"><span><b>Transport SMK</b>dowóz na wskazany adres przy większych zamówieniach, koszt potwierdzamy przy zamówieniu</span></label>
         <label class="opcja"><input type="radio" name="dostawa" value="odbior"><span><b>Odbiór osobisty</b>{FIRMA['ulica']}, {FIRMA['miasto']}</span></label>
         <label>Adres dostawy, jeśli inny niż do faktury<textarea name="adres_dostawy" rows="2"></textarea></label>
       </fieldset>
@@ -611,7 +612,7 @@ def zamowienie():
     <aside class="podsum zam-podsum">
       <h2>Twoje zamówienie</h2>
       <ul class="zam-lista" id="zamLista"></ul>
-      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Dostawa</dt><dd>koszt potwierdzamy przy zamówieniu</dd></div></dl>
+      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Wysyłka</dt><dd>kurier DPD, koszt doliczamy do zamówienia</dd></div></dl>
       <label class="zgoda"><input type="checkbox" name="regulamin" required> <span>Akceptuję <a href="{pre}regulamin/">regulamin sklepu</a> i <a href="{pre}polityka-prywatnosci/">politykę prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Zamawiam</button>
       <p class="form-info" id="zamInfo" role="status" aria-live="polite"></p>
@@ -642,10 +643,10 @@ def tekstowa(slug, tytul, opis, tresc):
 
 def tekstowe():
     tekstowa('dostawa-i-platnosci', 'Dostawa i płatności',
-             'Sposoby dostawy i płatności w sklepie SMK sp. z o.o.: transport własny, kurier, odbiór osobisty, płatność online lub przelewem.',
+             'Dostawa i płatności w sklepie SMK sp. z o.o.: wysyłka kurierem DPD doliczana do ceny worków, transport własny, odbiór osobisty, płatność online lub przelewem.',
              f'''<h2>Dostawa</h2>
-<p>Zamówione worki dowozimy własnym transportem na wskazany adres. Mniejsze zamówienia możemy wysłać kurierem, a towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
-<p>Koszt i termin dostawy zależą od wielkości zamówienia i miejsca dostawy. Potwierdzamy je po złożeniu zamówienia, przed płatnością.</p>
+<p>Ceny w sklepie dotyczą samych worków i nie obejmują wysyłki. Zamówione worki wysyłamy kurierem DPD, a koszt wysyłki doliczamy do zamówienia.</p>
+<p>Przy większych zamówieniach możemy dowieźć worki własnym transportem na wskazany adres. Towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
 <h2>Płatność</h2>
 <p>Za zamówienie można zapłacić online przez Przelewy24 (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek SMK sp. z o.o.: PL42 1090 1043 0000 0001 6767 2258 (Santander Bank Polska), w tytule numer zamówienia.</p>
 <h2>Faktura</h2>
@@ -659,7 +660,7 @@ def tekstowe():
 <h2>Zamówienia</h2>
 <p>Dane podane w zamówieniu (firma, NIP, adres, osoba kontaktowa, telefon, e-mail) wykorzystujemy do realizacji zamówienia, dostawy i wystawienia faktury (art. 6 ust. 1 lit. b i c RODO). Dane rozliczeniowe przechowujemy przez okres wymagany przepisami podatkowymi.</p>
 <h2>Płatności i dostawa</h2>
-<p>Przy płatności online dane potrzebne do zapłaty przekazujemy operatorowi płatności PayPro S.A. z siedzibą w Poznaniu (serwis Przelewy24), a przy wysyłce kurierem dane adresowe firmie kurierskiej, wyłącznie w zakresie potrzebnym do realizacji zamówienia.</p>
+<p>Przy płatności online dane potrzebne do zapłaty przekazujemy operatorowi płatności PayPro S.A. z siedzibą w Poznaniu (serwis Przelewy24), a przy wysyłce kurierem dane adresowe firmie kurierskiej DPD Polska sp. z o.o., wyłącznie w zakresie potrzebnym do realizacji zamówienia.</p>
 <h2>Formularz zapytania</h2>
 <p>Dane z formularza (imię, firma, telefon lub e-mail, opis i załączony plik) wykorzystujemy do przygotowania oferty i kontaktu w jej sprawie (art. 6 ust. 1 lit. b RODO).</p>
 <h2>Prawa</h2>
