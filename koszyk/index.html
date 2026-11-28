@@ -17,7 +17,7 @@
 <link rel="icon" href="../img/logo-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="preload" href="../fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css?v=2811">
 </head>
 <body data-pre="../">
 <a class="pomin" href="#tresc">Przejdź do treści</a>
@@ -50,9 +50,10 @@
       <h2>Podsumowanie</h2>
       <dl>
         <div><dt>Pozycje</dt><dd id="sumPoz">0</dd></div>
-        <div><dt>Sztuki razem</dt><dd id="sumSzt">0</dd></div>
+        <div><dt>Kartony razem</dt><dd id="sumSzt">0</dd></div>
         <div><dt>Wartość produktów z ceną</dt><dd id="sumWart">0,00 zł</dd></div>
-        <div><dt>Wysyłka</dt><dd>kurier DPD, doliczana do zamówienia</dd></div>
+        <div><dt>Wysyłka kurierem DPD <small>20 zł brutto / karton</small></dt><dd id="sumWys">0,00 zł</dd></div>
+        <div class="razem"><dt>Razem z wysyłką</dt><dd id="sumRazem">0,00 zł</dd></div>
         <div id="sumZap" hidden><dt>Pozycje z ceną na zapytanie</dt><dd>potwierdzimy przed płatnością</dd></div>
       </dl>
       <a href="../zamowienie/" class="btn btn-gl">Przejdź do zamówienia</a>
@@ -110,6 +111,6 @@
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-<script src="../app.js" defer></script>
+<script src="../app.js?v=2811" defer></script>
 </body>
 </html>

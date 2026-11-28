@@ -17,7 +17,7 @@
 <link rel="icon" href="../img/logo-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="preload" href="../fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css?v=2811">
 </head>
 <body data-pre="../">
 <a class="pomin" href="#tresc">Przejdź do treści</a>
@@ -65,7 +65,7 @@
       </fieldset>
       <fieldset>
         <legend>Dostawa</legend>
-        <label class="opcja"><input type="radio" name="dostawa" value="dpd" checked><span><b>Kurier DPD</b>koszt wysyłki doliczamy do ceny worków</span></label>
+        <label class="opcja"><input type="radio" name="dostawa" value="dpd" checked><span><b>Kurier DPD</b>20 zł brutto za każdy karton</span></label>
         <label class="opcja"><input type="radio" name="dostawa" value="transport"><span><b>Transport SMK</b>dowóz na wskazany adres przy większych zamówieniach, koszt potwierdzamy przy zamówieniu</span></label>
         <label class="opcja"><input type="radio" name="dostawa" value="odbior"><span><b>Odbiór osobisty</b>ul. Przyczółkowa 400, Warszawa</span></label>
         <label>Adres dostawy, jeśli inny niż do faktury<textarea name="adres_dostawy" rows="2"></textarea></label>
@@ -80,7 +80,7 @@
     <aside class="podsum zam-podsum">
       <h2>Twoje zamówienie</h2>
       <ul class="zam-lista" id="zamLista"></ul>
-      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Wysyłka</dt><dd>kurier DPD, koszt doliczamy do zamówienia</dd></div></dl>
+      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt id="zamWysOpis">Wysyłka kurierem DPD</dt><dd id="zamWys">0,00 zł</dd></div><div class="razem"><dt>Do zapłaty</dt><dd id="zamRazem">0,00 zł</dd></div></dl>
       <label class="zgoda"><input type="checkbox" name="regulamin" required> <span>Akceptuję <a href="../regulamin/">regulamin sklepu</a> i <a href="../polityka-prywatnosci/">politykę prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Zamawiam</button>
       <p class="form-info" id="zamInfo" role="status" aria-live="polite"></p>
@@ -133,6 +133,6 @@
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-<script src="../app.js" defer></script>
+<script src="../app.js?v=2811" defer></script>
 </body>
 </html>

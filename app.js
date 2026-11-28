@@ -105,6 +105,9 @@
 
   function zl(x) { return x.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' zł'; }
   function wartosc(k) { return k.reduce(function (s, p) { return s + (p.cena ? p.cena * p.ilosc : 0); }, 0); }
+  /* wysyłka DPD: 20 zł brutto za każdy karton */
+  var DPD = 20;
+  function kartony(k) { return k.reduce(function (s, p) { return s + p.ilosc; }, 0); }
   /* strona koszyka */
   var kl = d.getElementById('koszykLista');
   function rysujKoszyk() {
@@ -123,6 +126,8 @@
     d.getElementById('sumPoz').textContent = k.length;
     d.getElementById('sumSzt').textContent = k.reduce(function (s, p) { return s + p.ilosc; }, 0);
     var sw = d.getElementById('sumWart'); if (sw) sw.textContent = zl(wartosc(k));
+    var sy = d.getElementById('sumWys'); if (sy) sy.textContent = zl(DPD * kartony(k));
+    var sr = d.getElementById('sumRazem'); if (sr) sr.textContent = zl(wartosc(k) + DPD * kartony(k));
     var sz = d.getElementById('sumZap'); if (sz) sz.hidden = !k.some(function (p) { return !p.cena; });
   }
   if (kl) {
@@ -146,7 +151,18 @@
     zlista.innerHTML = k.length ? k.map(function (p) {
       return '<li><span>' + esc(p.nazwa) + (p.uwagi ? '<small>' + esc(p.uwagi) + '</small>' : '') + (p.cena ? '<small>' + zl(p.cena) + ' brutto / ' + esc(p.jedn || 'szt.') + '</small>' : '<small>cena na zapytanie</small>') + '</span><b>' + p.ilosc + ' ' + (p.jedn === 'karton' ? 'kart.' : 'szt.') + '</b></li>';
     }).join('') : '<li><span>Koszyk jest pusty. <a href="' + pre + 'sklep/">Przejdź do sklepu</a></span></li>';
-    var zw = d.getElementById('zamWart'); if (zw) zw.textContent = zl(wartosc(k)) + (k.some(function (p) { return !p.cena; }) ? ' + pozycje do wyceny' : '');
+    var doWyc = k.some(function (p) { return !p.cena; }) ? ' + pozycje do wyceny' : '';
+    var zw = d.getElementById('zamWart'); if (zw) zw.textContent = zl(wartosc(k)) + doWyc;
+    function przelicz() {
+      var dost = (zam.querySelector('[name=dostawa]:checked') || {}).value, wys = 0, opis = 'Wysyłka kurierem DPD', txt;
+      if (dost === 'dpd') { wys = DPD * kartony(k); txt = zl(wys); opis += ' (' + kartony(k) + ' x 20 zł)'; }
+      else if (dost === 'transport') { opis = 'Transport SMK'; txt = 'do potwierdzenia'; }
+      else { opis = 'Odbiór osobisty'; txt = '0,00 zł'; }
+      d.getElementById('zamWysOpis').textContent = opis;
+      d.getElementById('zamWys').textContent = txt;
+      d.getElementById('zamRazem').textContent = zl(wartosc(k) + wys) + (dost === 'transport' ? ' + transport' : '') + doWyc;
+    }
+    if (d.getElementById('zamWys')) { przelicz(); zam.addEventListener('change', function (e) { if (e.target.name === 'dostawa') przelicz(); }); }
     zam.addEventListener('submit', function (e) {
       e.preventDefault();
       var info = d.getElementById('zamInfo'), brak = null;

@@ -82,7 +82,7 @@ def head(pre, tytul, opis, sciezka, extra='', preload=''):
 <link rel="icon" href="{pre}img/logo-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="{pre}img/apple-touch-icon.png">
 <link rel="preload" href="{pre}fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-{preload}<link rel="stylesheet" href="{pre}style.css">
+{preload}<link rel="stylesheet" href="{pre}style.css?v=2811">
 {extra}</head>
 '''
 
@@ -149,7 +149,7 @@ def stopka(pre):
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-<script src="{pre}app.js" defer></script>
+<script src="{pre}app.js?v=2811" defer></script>
 </body>
 </html>
 '''
@@ -276,7 +276,7 @@ def strona_glowna():
       <ol class="kroki">
         <li><b>Wybór worków.</b> Dodają Państwo worki do koszyka i wpisują liczbę kartonów.</li>
         <li><b>Zamówienie z danymi do faktury.</b> Płatność online albo tradycyjnym przelewem, faktura z NIP firmy.</li>
-        <li><b>Wysyłka.</b> Worki wysyłamy kurierem DPD, koszt wysyłki doliczamy do ceny worków.</li>
+        <li><b>Wysyłka.</b> Worki wysyłamy kurierem DPD, 20 zł brutto za każdy karton, doliczane do zamówienia.</li>
       </ol>
       <p class="jak-dop">Przy większych i stałych zamówieniach najlepiej wysłać zapytanie, przygotujemy wycenę.</p>
       <a href="kontakt/#zapytanie" class="btn btn-gl">Wyślij zapytanie</a>
@@ -349,7 +349,7 @@ def produkt(p):
     if p.get('cechy'):
         opis = '<ul class="kp-cechy">' + ''.join(f'<li>{e(x)}</li>' for x in p['cechy']) + '</ul>' + opis
     if p.get('cena'):
-        kp_cena = f'<p class="kp-cena">{cena_html(p)}<small>Cena za {e(p["jedn"])}, bez kosztu wysyłki. Wysyłkę kurierem DPD doliczamy do zamówienia. Kod produktu: {e(p["kod"])}.</small></p>'
+        kp_cena = f'<p class="kp-cena">{cena_html(p)}<small>Cena za {e(p["jedn"])}, bez kosztu wysyłki. Wysyłka kurierem DPD: 20 zł brutto za każdy karton, doliczana do zamówienia. Kod produktu: {e(p["kod"])}.</small></p>'
     else:
         kp_cena = '<p class="kp-cena"><span class="cena">Cena na zapytanie</span><small>Cenę potwierdzamy po złożeniu zamówienia, przed płatnością.</small></p>'
     inne = [q for q in PRODUKTY if q['slug'] != p['slug']]
@@ -389,7 +389,7 @@ def produkt(p):
         </form>
         <ul class="kp-fakty">
           <li><b>Płatność</b>online albo przelewem, faktura z NIP</li>
-          <li><b>Wysyłka</b>kurierem DPD, koszt doliczany do ceny worków</li>
+          <li><b>Wysyłka</b>kurierem DPD, 20 zł brutto za każdy karton</li>
           <li><b>Większa ilość</b><a href="{pre}kontakt/?temat={p['slug']}#zapytanie">zapytanie o wycenę</a></li>
         </ul>
       </div>
@@ -552,9 +552,10 @@ def koszyk():
       <h2>Podsumowanie</h2>
       <dl>
         <div><dt>Pozycje</dt><dd id="sumPoz">0</dd></div>
-        <div><dt>Sztuki razem</dt><dd id="sumSzt">0</dd></div>
+        <div><dt>Kartony razem</dt><dd id="sumSzt">0</dd></div>
         <div><dt>Wartość produktów z ceną</dt><dd id="sumWart">0,00 zł</dd></div>
-        <div><dt>Wysyłka</dt><dd>kurier DPD, doliczana do zamówienia</dd></div>
+        <div><dt>Wysyłka kurierem DPD <small>20 zł brutto / karton</small></dt><dd id="sumWys">0,00 zł</dd></div>
+        <div class="razem"><dt>Razem z wysyłką</dt><dd id="sumRazem">0,00 zł</dd></div>
         <div id="sumZap" hidden><dt>Pozycje z ceną na zapytanie</dt><dd>potwierdzimy przed płatnością</dd></div>
       </dl>
       <a href="{pre}zamowienie/" class="btn btn-gl">Przejdź do zamówienia</a>
@@ -605,7 +606,7 @@ def zamowienie():
       </fieldset>
       <fieldset>
         <legend>Dostawa</legend>
-        <label class="opcja"><input type="radio" name="dostawa" value="dpd" checked><span><b>Kurier DPD</b>koszt wysyłki doliczamy do ceny worków</span></label>
+        <label class="opcja"><input type="radio" name="dostawa" value="dpd" checked><span><b>Kurier DPD</b>20 zł brutto za każdy karton</span></label>
         <label class="opcja"><input type="radio" name="dostawa" value="transport"><span><b>Transport SMK</b>dowóz na wskazany adres przy większych zamówieniach, koszt potwierdzamy przy zamówieniu</span></label>
         <label class="opcja"><input type="radio" name="dostawa" value="odbior"><span><b>Odbiór osobisty</b>{FIRMA['ulica']}, {FIRMA['miasto']}</span></label>
         <label>Adres dostawy, jeśli inny niż do faktury<textarea name="adres_dostawy" rows="2"></textarea></label>
@@ -620,7 +621,7 @@ def zamowienie():
     <aside class="podsum zam-podsum">
       <h2>Twoje zamówienie</h2>
       <ul class="zam-lista" id="zamLista"></ul>
-      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt>Wysyłka</dt><dd>kurier DPD, koszt doliczamy do zamówienia</dd></div></dl>
+      <dl><div><dt>Wartość produktów z ceną</dt><dd id="zamWart">0,00 zł</dd></div><div><dt id="zamWysOpis">Wysyłka kurierem DPD</dt><dd id="zamWys">0,00 zł</dd></div><div class="razem"><dt>Do zapłaty</dt><dd id="zamRazem">0,00 zł</dd></div></dl>
       <label class="zgoda"><input type="checkbox" name="regulamin" required> <span>Akceptuję <a href="{pre}regulamin/">regulamin sklepu</a> i <a href="{pre}polityka-prywatnosci/">politykę prywatności</a>.</span></label>
       <button type="submit" class="btn btn-gl">Zamawiam</button>
       <p class="form-info" id="zamInfo" role="status" aria-live="polite"></p>
@@ -651,9 +652,9 @@ def tekstowa(slug, tytul, opis, tresc):
 
 def tekstowe():
     tekstowa('dostawa-i-platnosci', 'Dostawa i płatności',
-             'Dostawa i płatności w sklepie SMK sp. z o.o.: wysyłka kurierem DPD doliczana do ceny worków, transport własny, odbiór osobisty, płatność online lub przelewem.',
+             'Dostawa i płatności w sklepie SMK sp. z o.o.: wysyłka kurierem DPD 20 zł brutto za każdy karton, transport własny, odbiór osobisty, płatność online lub przelewem.',
              f'''<h2>Dostawa</h2>
-<p>Ceny w sklepie dotyczą samych worków i nie obejmują wysyłki. Zamówione worki wysyłamy kurierem DPD, a koszt wysyłki doliczamy do zamówienia.</p>
+<p>Ceny w sklepie dotyczą samych worków i nie obejmują wysyłki. Zamówione worki wysyłamy kurierem DPD. Koszt wysyłki to <b>20 zł brutto za każdy karton</b> (np. 3 kartony = 60 zł), doliczany do zamówienia automatycznie w koszyku.</p>
 <p>Przy większych zamówieniach możemy dowieźć worki własnym transportem na wskazany adres. Towar można też odebrać osobiście w siedzibie firmy: {FIRMA['ulica']}, {FIRMA['kod']} {FIRMA['miasto']}.</p>
 <h2>Płatność</h2>
 <p>Za zamówienie można zapłacić online przez Przelewy24 (BLIK, karta płatnicza, szybki przelew) albo tradycyjnym przelewem na rachunek SMK sp. z o.o.: PL42 1090 1043 0000 0001 6767 2258 (Santander Bank Polska), w tytule numer zamówienia.</p>

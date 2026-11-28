@@ -243,6 +243,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--nieb);outline-of
 .podsum dl div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--linia);font-size:15px}
 .podsum dt{color:var(--tekst2)}
 .podsum dd{margin:0;font-weight:700;text-align:right}
+.podsum dt small{display:block;font-size:13px;font-weight:400}
+.podsum dl div.razem{border-bottom:0;font-size:17px}
+.podsum dl div.razem dt{color:var(--tekst);font-weight:700}
 .podsum .btn{width:100%;margin-top:10px}
 .pusty{grid-column:1/-1;padding:40px 0}
 .pusty p{font-size:20px;color:var(--tekst2)}
